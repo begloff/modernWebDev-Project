@@ -1,0 +1,51 @@
+[
+  {
+    "objectId": "0",
+    "date": "02/19/2023",
+    "description": "Gucci flip flops",
+    "price": "$402.42",
+    "store": "Gucci"
+  },
+  {
+    "objectId": "1",
+    "date": "03/03/2023",
+    "description": "Canes Box Combo",
+    "price": "$12.39",
+    "store": "Canes Chicken"
+  },
+  {
+    "objectId": "2",
+    "date": "05/28/2023",
+    "description": "Xbox One S",
+    "price": "$223.43",
+    "store": "GameStop"
+  },
+  {
+    "objectId": "3",
+    "date": "06/28/2023",
+    "description": "T-Shirt",
+    "price": "$31.94",
+    "store": "H&M"
+  },
+  {
+    "objectId": "4",
+    "date": "07/13/2023",
+    "description": "Optimum Nutrition Pre-Workout",
+    "price": "$31.89",
+    "store": "Amazon"
+  },
+  {
+    "objectId": "5",
+    "date": "08/21/2023",
+    "description": "Notre Dame Football Jersey",
+    "price": "$113.52",
+    "store": "Notre Dame Stadium"
+  },
+  {
+    "objectId": "6",
+    "date": "09/02/2023",
+    "description": "JBL Flip 5 Speaker",
+    "price": "$92.84",
+    "store": "Best Buy"
+  }
+]
