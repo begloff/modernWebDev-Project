@@ -1,9 +1,9 @@
-const PurchaseTable = ({
-  purchases,
-  togglePurchaseModal,
-  setSelectedPurchase,
+const TransactionTable = ({
+  transactions,
+  toggleTransactionModal,
+  setSelectedTransaction,
 }) => {
-  // Table displays all purchase fields - alternating color based on css
+  // Table displays all transaction fields - alternating color based on css
   return (
     <div class="row" style={{ marginTop: "25px" }}>
       <div class="col">
@@ -19,20 +19,20 @@ const PurchaseTable = ({
               </tr>
             </thead>
             <tbody>
-              {purchases.map((purchase, index) => (
+              {transactions.map((transaction, index) => (
                 <tr
                   style={{ cursor: "pointer" }}
-                  key={purchase}
+                  key={transaction}
                   onClick={() => {
-                    togglePurchaseModal(purchase);
-                    setSelectedPurchase(purchase);
+                    toggleTransactionModal(transaction);
+                    setSelectedTransaction(transaction);
                   }}
                 >
                   <td>{index + 1}</td>
-                  <td>{purchase.attributes.date.toDateString()}</td>
-                  <td>{purchase.attributes.description}</td>
-                  <td>${purchase.attributes.price}</td>
-                  <td>{purchase.attributes.store}</td>
+                  <td>{transaction.attributes.date.toDateString()}</td>
+                  <td>{transaction.attributes.description}</td>
+                  <td>${transaction.attributes.amount}</td>
+                  <td>{transaction.attributes.store}</td>
                 </tr>
               ))}
             </tbody>
@@ -45,4 +45,4 @@ const PurchaseTable = ({
   );
 };
 
-export default PurchaseTable;
+export default TransactionTable;
