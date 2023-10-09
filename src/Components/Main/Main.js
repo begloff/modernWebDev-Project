@@ -1,23 +1,36 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { getAllPurchases } from "../../Services/Purchases.js";
-import PurchaseModal from "../PurchaseModal/PurchaseModal.js";
+import { getAllTransactions } from "../../Models/Transactions/Transactions.js";
+import { getAllUsers } from "../../Models/Users/Users.js";
+import { getAllAccounts } from "../../Models/Accounts/Accounts.js";
+import TransactionModal from "../TransactionModal/TransactionModal.js";
 import TableQuery from "../TableQuery/TableQuery.js";
-import PurchaseTable from "../PurchaseTable/PurchaseTable.js";
+import TransactionTable from "../TransactionTable/TransactionTable.js";
 
 const Main = () => {
-  const [purchases, setPurchases] = useState([]);
-  const [filteredPurchases, setFilteredPurchases] = useState([]);
-  const [selectedPurchase, setSelectedPurchase] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+
+  const [accounts, setAccounts] = useState(null);
+  const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    // pull all purchases from json, set purchases, and filter purchases
+    // pull all transactions from json, set transactions, and filter transactions
     console.log("fetching");
-    getAllPurchases().then((purchases) => {
-      console.log(purchases);
-      setPurchases(purchases);
-      setFilteredPurchases(purchases);
+    getAllTransactions().then((transactions) => {
+      console.log(transactions);
+      setTransactions(transactions);
+      setFilteredTransactions(transactions);
+    });
+
+    getAllAccounts().then((accounts) => {
+      setAccounts(accounts);
+    });
+
+    getAllUsers().then((users) => {
+      setUsers(users);
     });
   }, []);
 
@@ -25,26 +38,26 @@ const Main = () => {
     //Controls data displayed in table, will need to be updated to include other fields
 
     if (searchParams === "") {
-      setFilteredPurchases(purchases);
+      setFilteredTransactions(transactions);
       return;
     }
 
-    // filter purchases based on input
-    const filteredPurchases = purchases.filter((purchase) =>
-      purchase.attributes.description
+    // filter transactions based on input
+    const filteredTransactions = transactions.filter((transaction) =>
+      transaction.attributes.description
         .toLowerCase()
         .includes(searchParams.toLowerCase())
     );
-    setFilteredPurchases(filteredPurchases);
+    setFilteredTransactions(filteredTransactions);
   };
 
   //Modal toggles are passed to other components to allow for the modal to be opened from other components
-  const togglePurchaseModal = (purchase) => {
-    setSelectedPurchase(purchase);
+  const toggleTransactionModal = (transaction) => {
+    setSelectedTransaction(transaction);
   };
 
   const closeModal = () => {
-    setSelectedPurchase(null);
+    setSelectedTransaction(null);
   };
 
   // return the HTML for everything on the page
@@ -55,36 +68,52 @@ const Main = () => {
           <h1>Finance Manager</h1>
           <hr />
           <hr />
-          <PurchaseModal
-            isOpen={selectedPurchase !== null}
+          <TransactionModal
+            isOpen={selectedTransaction !== null}
             closeModal={closeModal}
-            purchase={selectedPurchase}
+            transaction={selectedTransaction}
           />
 
           <TableQuery onQuery={handleQuery} />
 
-          <PurchaseTable
-            purchases={filteredPurchases}
-            togglePurchaseModal={togglePurchaseModal}
-            setSelectedPurchase={setSelectedPurchase}
+          <TransactionTable
+            transactions={filteredTransactions}
+            toggleTransactionModal={toggleTransactionModal}
+            setSelectedTransaction={setSelectedTransaction}
           />
         </div>
       </div>
-      {filteredPurchases.length > 0 && (
+      {filteredTransactions.length > 0 && (
         <div class="row">
           <div class="col">
             <h3>
               {" "}
               Total Spent: $
-              {filteredPurchases
+              {filteredTransactions
                 .reduce(
-                  (total, purchase) =>
-                    total + Number(purchase.attributes.price),
+                  (total, transaction) =>
+                    total + Number(transaction.attributes.amount),
                   0
                 )
                 .toFixed(2)}
             </h3>
           </div>
+        </div>
+      )}
+
+      {users.length > 0 && (
+        <div>
+          {users.map((user) => (
+            <p>{user.attributes.firstname}</p>
+          ))}
+        </div>
+      )}
+
+      {accounts.length > 0 && (
+        <div>
+          {accounts.map((account) => (
+            <p>{account.attributes.accountName}</p>
+          ))}
         </div>
       )}
     </div>

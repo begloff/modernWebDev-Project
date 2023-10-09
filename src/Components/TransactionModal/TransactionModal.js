@@ -1,15 +1,16 @@
-const PurchaseModal = ({ isOpen, closeModal, purchase }) => {
+const TransactionModal = ({ isOpen, closeModal, transaction }) => {
   // read conditional isOpen. return modal html if true, null if false
   if (!isOpen) {
     return null;
   }
 
   //As a conditional component, need props to control whether or not it is displayed
-  //Map displays all purchase fields
+  //Map displays all transaction fields
   //Can be updated to look better in the future
 
   //Will need to update so that button is only available if form is dirty
   //Use react hook form
+  console.log(transaction);
 
   return (
     <div class="modal">
@@ -17,9 +18,13 @@ const PurchaseModal = ({ isOpen, closeModal, purchase }) => {
         <span class="close" onClick={closeModal}>
           X
         </span>
-        <h2>Purchase Details</h2>
+        <h2>Transaction Details</h2>
         <ul style={{ listStyleType: "none" }}>
-          {Object.entries(purchase.attributes).map(([key, value]) => {
+          {Object.entries(transaction.attributes).map(([key, value]) => {
+            if (typeof value === "object" && value !== null) {
+              // Handle nested objects here if needed, or skip them
+              return null; // Skip rendering this value
+            }
             if (key === "date") {
               return (
                 <li>
@@ -35,7 +40,7 @@ const PurchaseModal = ({ isOpen, closeModal, purchase }) => {
             } else if (
               key === "description" ||
               key === "store" ||
-              key === "price"
+              key === "amount"
             ) {
               return (
                 <li>
@@ -49,7 +54,6 @@ const PurchaseModal = ({ isOpen, closeModal, purchase }) => {
                 </li>
               );
             } else if (key !== "createdAt" && key !== "updatedAt") {
-              console.log(key, value);
               return (
                 <li>
                   <b>{key}:</b>
@@ -69,4 +73,4 @@ const PurchaseModal = ({ isOpen, closeModal, purchase }) => {
   );
 };
 
-export default PurchaseModal;
+export default TransactionModal;
