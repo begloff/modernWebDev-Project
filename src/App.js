@@ -1,6 +1,6 @@
 import "./App.css";
 import Parse from "parse";
-import Main from "./Components/Main/Main.js";
+import Components from "./Components/Components";
 
 Parse.serverURL = "https://parseapi.back4app.com"; // This is your Server URL
 // Remember to inform BOTH the Back4App Application ID AND the JavaScript KEY
@@ -10,12 +10,6 @@ Parse.initialize(
   "3o1bBEOpeBrjEJhrkF8zuhmtMbOegvDofjJbVOrC" // This is your Master key (never use it in the frontend)
 );
 
-function App() {
-  return (
-    <div className="App">
-      <Main />
-    </div>
-  );
+export default function App() {
+  return <Components />
 }
-
-export default App;
