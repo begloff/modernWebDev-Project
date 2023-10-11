@@ -13,14 +13,13 @@ const Main = () => {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-  const [accounts, setAccounts] = useState(null);
-  const [users, setUsers] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     // pull all transactions from json, set transactions, and filter transactions
     console.log("fetching");
     getAllTransactions().then((transactions) => {
-      console.log(transactions);
       setTransactions(transactions);
       setFilteredTransactions(transactions);
     });
