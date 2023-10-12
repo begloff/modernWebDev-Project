@@ -9,7 +9,9 @@ export const getAllAccounts = () => {
   const query = new Parse.Query(Accounts);
 
   return query.find().then((results) => {
-    console.log(results);
     return results;
   });
 };
+
+//Future Work: Create, Update Delete operations for accounts
+//Have limited data so not entirely necessary yet
