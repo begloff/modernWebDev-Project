@@ -9,7 +9,8 @@ export const getAllUsers = () => {
   const query = new Parse.Query(Users);
 
   return query.find().then((results) => {
-    console.log(results);
     return results;
   });
 };
+
+//Made this model before considering auth, so this model will be integrated into the Parse User model in feature 4

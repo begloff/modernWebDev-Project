@@ -5,10 +5,10 @@ const TransactionTable = ({
 }) => {
   // Table displays all transaction fields - alternating color based on css
   return (
-    <div class="row" style={{ marginTop: "25px" }}>
-      <div class="col">
-        <div class="table-container" style={{ marginBottom: "25px" }}>
-          <table class="table">
+    <div className="row" style={{ marginTop: "25px" }}>
+      <div className="col">
+        <div className="table-container" style={{ marginBottom: "25px" }}>
+          <table className="table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -22,7 +22,7 @@ const TransactionTable = ({
               {transactions.map((transaction, index) => (
                 <tr
                   style={{ cursor: "pointer" }}
-                  key={transaction}
+                  key={transaction.id}
                   onClick={() => {
                     toggleTransactionModal(transaction);
                     setSelectedTransaction(transaction);
