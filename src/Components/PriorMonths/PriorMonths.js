@@ -18,7 +18,6 @@ const Main = () => {
 
   useEffect(() => {
     // pull all transactions from json, set transactions, and filter transactions
-    console.log("fetching");
     getAllTransactions().then((transactions) => {
       setTransactions(transactions);
       setFilteredTransactions(transactions);
@@ -62,8 +61,8 @@ const Main = () => {
   // return the HTML for everything on the page
   return (
     <div>
-      <div class="row">
-        <div class="col">
+      <div className="row">
+        <div className="col">
           <h1>Finance Manager</h1>
           <hr />
           <hr />
@@ -83,8 +82,8 @@ const Main = () => {
         </div>
       </div>
       {filteredTransactions.length > 0 && (
-        <div class="row">
-          <div class="col">
+        <div className="row">
+          <div className="col">
             <h3>
               {" "}
               Total Spent: $

@@ -18,7 +18,6 @@ const SpendingHistory = () => {
 
   useEffect(() => {
     // pull all transactions from json, set transactions, and filter transactions
-    console.log("fetching");
     getAllTransactions().then((transactions) => {
       setTransactions(transactions);
       setFilteredTransactions(transactions);
@@ -62,8 +61,8 @@ const SpendingHistory = () => {
   // return the HTML for everything on the page
   return (
     <div>
-      <div class="row">
-        <div class="col">
+      <div className="row">
+        <div className="col">
           <h1>Finance Manager</h1>
           <h3>Transaction History</h3>
           <hr />
@@ -84,8 +83,8 @@ const SpendingHistory = () => {
         </div>
       </div>
       {filteredTransactions.length > 0 && (
-        <div class="row">
-          <div class="col">
+        <div className="row">
+          <div className="col">
             <h3>
               {" "}
               Total Spent: $
@@ -104,7 +103,7 @@ const SpendingHistory = () => {
       {users.length > 0 && (
         <div>
           {users.map((user) => (
-            <p>{user.attributes.firstname}</p>
+            <p key={user.id}>{user.attributes.firstname}</p>
           ))}
         </div>
       )}
@@ -112,14 +111,14 @@ const SpendingHistory = () => {
       {accounts.length > 0 && (
         <div>
           {accounts.map((account) => (
-            <p>{account.attributes.accountName}</p>
+            <p key={account.id}>{account.attributes.accountName}</p>
           ))}
         </div>
       )}
     </div>
   );
 
-  // The reduce is a bit messy, can put in function in future
+  // Child component --> houses many of the components necessary for transaction history
 };
 
 export default SpendingHistory;
