@@ -64,6 +64,7 @@ const SpendingHistory = () => {
       <div className="row">
         <div className="col">
           <h1>Finance Manager</h1>
+          <h3>Transaction History</h3>
           <hr />
           <hr />
           <TransactionModal
