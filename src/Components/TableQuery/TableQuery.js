@@ -19,18 +19,18 @@ const TableQuery = ({ onQuery }) => {
 
   return (
     <form onSubmit={handleQuerySubmit} style={{ width: "100%" }}>
-      <div class="row" style={{ marginBottom: "25px" }}>
-        <div class="col" style={{ flexMargin: "50%" }}>
+      <div className="row" style={{ marginBottom: "25px" }}>
+        <div className="col" style={{ flexMargin: "50%" }}>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="Search by Description"
             value={searchParams}
             onInput={handleSearchChange}
           />
         </div>
-        <div class="col">
-          <button class="btn btn-primary" type="submit">
+        <div className="col">
+          <button className="btn btn-primary" type="submit">
             Search
           </button>
         </div>

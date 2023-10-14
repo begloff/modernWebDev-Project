@@ -10,12 +10,11 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
 
   //Will need to update so that button is only available if form is dirty
   //Use react hook form
-  console.log(transaction);
 
   return (
-    <div class="modal">
-      <div class="modal-content">
-        <span class="close" onClick={closeModal}>
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={closeModal}>
           X
         </span>
         <h2>Transaction Details</h2>
@@ -27,13 +26,13 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
             }
             if (key === "date") {
               return (
-                <li>
-                  <label for="dateInput">{key}:</label>
+                <li key={key}>
+                  <label htmlFor="dateInput">{key}:</label>
                   <input
                     type="date"
                     id="dateInput"
                     name="dateInput"
-                    value={value.toISOString().split("T")[0]}
+                    defaultValue={value.toISOString().split("T")[0]}
                   />
                 </li>
               );
@@ -43,19 +42,19 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
               key === "amount"
             ) {
               return (
-                <li>
-                  <label for="{key}Input">{key}:</label>
+                <li key={key}>
+                  <label htmlFor="{key}Input">{key}:</label>
                   <input
                     type="text"
                     id={`${key}Input`}
                     name={`${key}Input`}
-                    value={value}
+                    defaultValue={value}
                   />
                 </li>
               );
             } else if (key !== "createdAt" && key !== "updatedAt") {
               return (
-                <li>
+                <li key={key}>
                   <b>{key}:</b>
                   {value}
                 </li>
@@ -65,7 +64,7 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
             }
           })}
         </ul>
-        <button class="btn btn-primary" onClick={closeModal}>
+        <button className="btn btn-primary" onClick={closeModal}>
           Update Entry
         </button>
       </div>

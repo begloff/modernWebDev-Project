@@ -9,7 +9,10 @@ export const getAllTransactions = () => {
   const query = new Parse.Query(Transactions);
 
   return query.find().then((results) => {
-    console.log(results);
     return results;
   });
 };
+
+//Need to make Create, Update Delete Operations
+
+//Will need to be relatively strict on form to create, and update to comply with parse model

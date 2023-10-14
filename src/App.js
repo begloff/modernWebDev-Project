@@ -10,6 +10,8 @@ Parse.initialize(
   "3o1bBEOpeBrjEJhrkF8zuhmtMbOegvDofjJbVOrC" // This is your Master key (never use it in the frontend)
 );
 
+// Top level parse initialization
+
 export default function App() {
-  return <Components />
+  return <Components />;
 }
