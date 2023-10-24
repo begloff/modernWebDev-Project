@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { getAllTransactions } from "../../Models/Transactions/Transactions.js";
 import { getAllUsers } from "../../Models/Users/Users.js";
 import { getAllAccounts } from "../../Models/Accounts/Accounts.js";
-import TransactionModal from "../TransactionModal/TransactionModal.js";
+import EditTransactionModal from "../EditTransactionModal/EditTransactionModal.js";
+import NewTransactionModal from "../NewTransactionModal/NewTransactionModal.js";
 import TableQuery from "../TableQuery/TableQuery.js";
 import TransactionTable from "../TransactionTable/TransactionTable.js";
 
@@ -12,6 +13,7 @@ const SpendingHistory = () => {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [newTransactionModal, setNewTransactionModal] = useState(false);
 
   const [accounts, setAccounts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -50,12 +52,23 @@ const SpendingHistory = () => {
   };
 
   //Modal toggles are passed to other components to allow for the modal to be opened from other components
-  const toggleTransactionModal = (transaction) => {
+  const toggleEditTransactionModal = (transaction) => {
     setSelectedTransaction(transaction);
   };
 
-  const closeModal = () => {
+  const closeEditModal = (transaction) => {
+    // TODO: Submit to DB to Update existing entries
+    console.log(transaction);
     setSelectedTransaction(null);
+  };
+
+  const closeNewModal = (transaction) => {
+    // TODO: Submit to DB to create new entries
+    setNewTransactionModal(false);
+  };
+
+  const toggleNewTransactionModal = (transaction) => {
+    setNewTransactionModal(true);
   };
 
   // return the HTML for everything on the page
@@ -67,17 +80,23 @@ const SpendingHistory = () => {
           <h3>Transaction History</h3>
           <hr />
           <hr />
-          <TransactionModal
+          <EditTransactionModal
             isOpen={selectedTransaction !== null}
-            closeModal={closeModal}
+            closeModal={closeEditModal}
             transaction={selectedTransaction}
+          />
+
+          <NewTransactionModal
+            isOpen={newTransactionModal}
+            closeModal={closeNewModal}
           />
 
           <TableQuery onQuery={handleQuery} />
 
           <TransactionTable
             transactions={filteredTransactions}
-            toggleTransactionModal={toggleTransactionModal}
+            toggleEditTransactionModal={toggleEditTransactionModal}
+            toggleNewTransactionModal={toggleNewTransactionModal}
             setSelectedTransaction={setSelectedTransaction}
           />
         </div>
