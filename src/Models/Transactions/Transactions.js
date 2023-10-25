@@ -4,10 +4,19 @@ import Parse from "parse";
 //   "https://my-json-server.typicode.com/kellybuchanan/WebDev-Spring2021";
 
 // this function pulls data from the JSON file and returns the response
-export const getAllTransactions = () => {
+export const getAllTransactions = (accountId) => {
   const Transactions = Parse.Object.extend("Transactions");
   const query = new Parse.Query(Transactions);
 
+  if (accountId) {
+    var account = {
+      __type: "Pointer",
+      className: "Accounts",
+      objectId: accountId,
+    };
+
+    query.equalTo("account", account);
+  }
   return query.find().then((results) => {
     return results;
   });

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   getAllTransactions,
@@ -22,13 +23,21 @@ const SpendingHistory = () => {
 
   const [accounts, setAccounts] = useState([]);
   const [users, setUsers] = useState([]);
+  const { accountId } = useParams();
 
   useEffect(() => {
     // pull all transactions from json, set transactions, and filter transactions
-    getAllTransactions().then((transactions) => {
-      setTransactions(transactions);
-      setFilteredTransactions(transactions);
-    });
+    if (accountId) {
+      getAllTransactions(accountId).then((transactions) => {
+        setTransactions(transactions);
+        setFilteredTransactions(transactions);
+      });
+    } else {
+      getAllTransactions(accountId).then((transactions) => {
+        setTransactions(transactions);
+        setFilteredTransactions(transactions);
+      });
+    }
 
     getAllAccounts().then((accounts) => {
       setAccounts(accounts);
@@ -37,7 +46,7 @@ const SpendingHistory = () => {
     getAllUsers().then((users) => {
       setUsers(users);
     });
-  }, []);
+  }, [accountId]);
 
   useEffect(() => {
     // This effect will run whenever transactions or filteredTransactions change
