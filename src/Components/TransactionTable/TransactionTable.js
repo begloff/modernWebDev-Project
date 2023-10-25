@@ -3,6 +3,8 @@ const TransactionTable = ({
   toggleEditTransactionModal,
   toggleNewTransactionModal,
   setSelectedTransaction,
+  deleteTransaction,
+  updateDeletedTransaction,
 }) => {
   // Table displays all transaction fields - alternating color based on css
   return (
@@ -35,7 +37,16 @@ const TransactionTable = ({
                   <td>{transaction.attributes.description}</td>
                   <td>${transaction.attributes.amount}</td>
                   <td>{transaction.attributes.store}</td>
-                  <td>Drop</td>
+                  <td
+                    className="dropCol"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteTransaction(transaction.id);
+                      updateDeletedTransaction(transaction.id);
+                    }}
+                  >
+                    Delete
+                  </td>
                 </tr>
               ))}
             </tbody>

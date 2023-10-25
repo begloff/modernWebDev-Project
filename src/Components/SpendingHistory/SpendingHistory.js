@@ -1,7 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { getAllTransactions } from "../../Models/Transactions/Transactions.js";
+import {
+  getAllTransactions,
+  createTransaction,
+  updateTransaction,
+  deleteTransaction,
+} from "../../Models/Transactions/Transactions.js";
 import { getAllUsers } from "../../Models/Users/Users.js";
 import { getAllAccounts } from "../../Models/Accounts/Accounts.js";
 import EditTransactionModal from "../EditTransactionModal/EditTransactionModal.js";
@@ -56,19 +61,33 @@ const SpendingHistory = () => {
     setSelectedTransaction(transaction);
   };
 
-  const closeEditModal = (transaction) => {
+  const closeEditModal = (transaction, id, post = false) => {
     // TODO: Submit to DB to Update existing entries
-    console.log(transaction);
+    if (post) {
+      updateTransaction(id, transaction);
+    }
     setSelectedTransaction(null);
   };
 
-  const closeNewModal = (transaction) => {
-    // TODO: Submit to DB to create new entries
+  const closeNewModal = (transaction, post = false) => {
+    //TODO: Set user and account based on current user
+    if (post) {
+      createTransaction(transaction);
+    }
     setNewTransactionModal(false);
   };
 
   const toggleNewTransactionModal = (transaction) => {
     setNewTransactionModal(true);
+  };
+
+  const updateDeletedTransaction = (transactionId) => {
+    // Filter out the deleted transaction
+    const updatedTransactions = transactions.filter(
+      (transaction) => transaction.id !== transactionId
+    );
+
+    setTransactions(updatedTransactions);
   };
 
   // return the HTML for everything on the page
@@ -98,6 +117,8 @@ const SpendingHistory = () => {
             toggleEditTransactionModal={toggleEditTransactionModal}
             toggleNewTransactionModal={toggleNewTransactionModal}
             setSelectedTransaction={setSelectedTransaction}
+            deleteTransaction={deleteTransaction}
+            updateDeletedTransaction={updateDeletedTransaction}
           />
         </div>
       </div>

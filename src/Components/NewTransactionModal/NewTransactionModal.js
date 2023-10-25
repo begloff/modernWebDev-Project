@@ -92,7 +92,7 @@ const NewTransactionModal = ({ isOpen, closeModal }) => {
         </ul>
         <button
           className="btn btn-primary"
-          onClick={() => closeModal(transactionForm)}
+          onClick={() => closeModal(transactionForm, true)}
         >
           Create Entry
         </button>

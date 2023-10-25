@@ -11,8 +11,6 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
     if (transaction) {
       const initialTransactionState = {
         ...transaction.attributes,
-        id: transaction.id,
-        className: transaction.className,
       };
       setTransaction(initialTransactionState);
     }
@@ -24,6 +22,22 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
       ...editedTransaction,
       [name]: value,
     });
+  };
+
+  const prepareDataForUpdate = () => {
+    const updatedTransaction = { ...editedTransaction };
+
+    for (const key in transaction.attributes) {
+      if (
+        transaction.attributes.hasOwnProperty(key) &&
+        updatedTransaction.hasOwnProperty(key) &&
+        transaction.attributes[key] === updatedTransaction[key]
+      ) {
+        delete updatedTransaction[key];
+      }
+    }
+    setTransaction(updatedTransaction);
+    closeModal(editedTransaction, transaction.id, true);
   };
 
   if (!isOpen) {
@@ -85,10 +99,7 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
             }
           })}
         </ul>
-        <button
-          className="btn btn-primary"
-          onClick={() => closeModal(editedTransaction)}
-        >
+        <button className="btn btn-primary" onClick={prepareDataForUpdate}>
           Update Entry
         </button>
       </div>
