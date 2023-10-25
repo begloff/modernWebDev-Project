@@ -249,6 +249,41 @@ input:checked + .slider:before {
   color: white; /* Color on hover */
 }
 
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  width: calc(33% - 10px); /* Adjust as needed */
+  margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Light text color on dark background */
+  border: 1px solid #555; /* Dark border color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s; /* Add a transition for smooth animation */
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 100%;
+  }
+}
+
+.card:hover {
+  transform: translateY(-10px); /* Lift the card by 10 pixels on hover */
+  cursor: pointer;
+}
+
 /* This css file is a mess */
 /* Once switch over to react will split into multiple files */
 /* Will also need to utilize css grid */

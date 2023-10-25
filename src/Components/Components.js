@@ -10,7 +10,7 @@ export default function Components() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/SpendingHistory" element={<SpendingHistory />} />
+        <Route path="/transactions/:accountId?" element={<SpendingHistory />} />
       </Routes>
     </Router>
   );

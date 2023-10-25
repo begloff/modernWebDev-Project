@@ -5,7 +5,7 @@ const Header = () => (
     <nav>
       <div className="navbar-links">
         <Link to="/">Home</Link>
-        <Link to="/SpendingHistory">Transaction History</Link>
+        <Link to="/transactions">Transaction History</Link>
       </div>
     </nav>
   </header>
