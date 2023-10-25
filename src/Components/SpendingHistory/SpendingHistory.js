@@ -1,10 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import { getAllTransactions } from "../../Models/Transactions/Transactions.js";
+import {
+  getAllTransactions,
+  createTransaction,
+  updateTransaction,
+  deleteTransaction,
+} from "../../Models/Transactions/Transactions.js";
 import { getAllUsers } from "../../Models/Users/Users.js";
 import { getAllAccounts } from "../../Models/Accounts/Accounts.js";
-import TransactionModal from "../TransactionModal/TransactionModal.js";
+import EditTransactionModal from "../EditTransactionModal/EditTransactionModal.js";
+import NewTransactionModal from "../NewTransactionModal/NewTransactionModal.js";
 import TableQuery from "../TableQuery/TableQuery.js";
 import TransactionTable from "../TransactionTable/TransactionTable.js";
 
@@ -12,6 +18,7 @@ const SpendingHistory = () => {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [newTransactionModal, setNewTransactionModal] = useState(false);
 
   const [accounts, setAccounts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -32,6 +39,11 @@ const SpendingHistory = () => {
     });
   }, []);
 
+  useEffect(() => {
+    // This effect will run whenever transactions or filteredTransactions change
+    setFilteredTransactions(transactions);
+  }, [transactions]);
+
   const handleQuery = (searchParams) => {
     //Controls data displayed in table, will need to be updated to include other fields
 
@@ -50,12 +62,37 @@ const SpendingHistory = () => {
   };
 
   //Modal toggles are passed to other components to allow for the modal to be opened from other components
-  const toggleTransactionModal = (transaction) => {
+  const toggleEditTransactionModal = (transaction) => {
     setSelectedTransaction(transaction);
   };
 
-  const closeModal = () => {
+  const closeEditModal = (transaction, id, post = false) => {
+    // TODO: Submit to DB to Update existing entries
+    if (post) {
+      updateTransaction(id, transaction);
+    }
     setSelectedTransaction(null);
+  };
+
+  const closeNewModal = (transaction, post = false) => {
+    //TODO: Set user and account based on current user
+    if (post) {
+      createTransaction(transaction);
+    }
+    setNewTransactionModal(false);
+  };
+
+  const toggleNewTransactionModal = (transaction) => {
+    setNewTransactionModal(true);
+  };
+
+  const updateDeletedTransaction = (transactionId) => {
+    // Filter out the deleted transaction
+    const updatedTransactions = transactions.filter(
+      (transaction) => transaction.id !== transactionId
+    );
+
+    setTransactions(updatedTransactions);
   };
 
   // return the HTML for everything on the page
@@ -67,18 +104,26 @@ const SpendingHistory = () => {
           <h3>Transaction History</h3>
           <hr />
           <hr />
-          <TransactionModal
+          <EditTransactionModal
             isOpen={selectedTransaction !== null}
-            closeModal={closeModal}
+            closeModal={closeEditModal}
             transaction={selectedTransaction}
+          />
+
+          <NewTransactionModal
+            isOpen={newTransactionModal}
+            closeModal={closeNewModal}
           />
 
           <TableQuery onQuery={handleQuery} />
 
           <TransactionTable
             transactions={filteredTransactions}
-            toggleTransactionModal={toggleTransactionModal}
+            toggleEditTransactionModal={toggleEditTransactionModal}
+            toggleNewTransactionModal={toggleNewTransactionModal}
             setSelectedTransaction={setSelectedTransaction}
+            deleteTransaction={deleteTransaction}
+            updateDeletedTransaction={updateDeletedTransaction}
           />
         </div>
       </div>

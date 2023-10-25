@@ -1,15 +1,48 @@
+import { useState, useEffect } from "react";
+
 const TransactionModal = ({ isOpen, closeModal, transaction }) => {
   // read conditional isOpen. return modal html if true, null if false
+
+  let initialTransactionState = {};
+
+  const [editedTransaction, setTransaction] = useState(initialTransactionState);
+
+  useEffect(() => {
+    if (transaction) {
+      const initialTransactionState = {
+        ...transaction.attributes,
+      };
+      setTransaction(initialTransactionState);
+    }
+  }, [transaction]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTransaction({
+      ...editedTransaction,
+      [name]: value,
+    });
+  };
+
+  const prepareDataForUpdate = () => {
+    const updatedTransaction = { ...editedTransaction };
+
+    for (const key in transaction.attributes) {
+      if (
+        transaction.attributes.hasOwnProperty(key) &&
+        updatedTransaction.hasOwnProperty(key) &&
+        transaction.attributes[key] === updatedTransaction[key]
+      ) {
+        delete updatedTransaction[key];
+      }
+    }
+    setTransaction(updatedTransaction);
+    closeModal(editedTransaction, transaction.id, true);
+  };
+
   if (!isOpen) {
     return null;
   }
-
-  //As a conditional component, need props to control whether or not it is displayed
-  //Map displays all transaction fields
-  //Can be updated to look better in the future
-
-  //Will need to update so that button is only available if form is dirty
-  //Use react hook form
 
   return (
     <div className="modal">
@@ -19,8 +52,8 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
         </span>
         <h2>Transaction Details</h2>
         <ul style={{ listStyleType: "none" }}>
-          {Object.entries(transaction.attributes).map(([key, value]) => {
-            if (typeof value === "object" && value !== null) {
+          {Object.entries(editedTransaction).map(([key, value]) => {
+            if (typeof value === "object" && value !== null && key !== "date") {
               // Handle nested objects here if needed, or skip them
               return null; // Skip rendering this value
             }
@@ -31,8 +64,9 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
                   <input
                     type="date"
                     id="dateInput"
-                    name="dateInput"
-                    defaultValue={value.toISOString().split("T")[0]}
+                    name="date"
+                    value={value ? value.toISOString().split("T")[0] : ""}
+                    onChange={handleInputChange}
                   />
                 </li>
               );
@@ -47,8 +81,9 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
                   <input
                     type="text"
                     id={`${key}Input`}
-                    name={`${key}Input`}
-                    defaultValue={value}
+                    name={`${key}`}
+                    value={value}
+                    onChange={handleInputChange}
                   />
                 </li>
               );
@@ -64,7 +99,7 @@ const TransactionModal = ({ isOpen, closeModal, transaction }) => {
             }
           })}
         </ul>
-        <button className="btn btn-primary" onClick={closeModal}>
+        <button className="btn btn-primary" onClick={prepareDataForUpdate}>
           Update Entry
         </button>
       </div>

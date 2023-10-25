@@ -1,7 +1,13 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const TransactionTable = ({
   transactions,
-  toggleTransactionModal,
+  toggleEditTransactionModal,
+  toggleNewTransactionModal,
   setSelectedTransaction,
+  deleteTransaction,
+  updateDeletedTransaction,
 }) => {
   // Table displays all transaction fields - alternating color based on css
   return (
@@ -16,6 +22,8 @@ const TransactionTable = ({
                 <th>Description</th>
                 <th>Price</th>
                 <th>Store</th>
+
+                <th style={{ textAlign: "center" }}>X</th>
               </tr>
             </thead>
             <tbody>
@@ -24,7 +32,7 @@ const TransactionTable = ({
                   style={{ cursor: "pointer" }}
                   key={transaction.id}
                   onClick={() => {
-                    toggleTransactionModal(transaction);
+                    toggleEditTransactionModal(transaction);
                     setSelectedTransaction(transaction);
                   }}
                 >
@@ -33,11 +41,29 @@ const TransactionTable = ({
                   <td>{transaction.attributes.description}</td>
                   <td>${transaction.attributes.amount}</td>
                   <td>{transaction.attributes.store}</td>
+                  <td
+                    className="dropCol"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteTransaction(transaction.id);
+                      updateDeletedTransaction(transaction.id);
+                    }}
+                    style={{ textAlign: "center" }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="trashIcon" />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <button
+          className="btn btn-primary"
+          style={{ marginBottom: "15px" }}
+          onClick={() => toggleNewTransactionModal()}
+        >
+          Add New Transaction
+        </button>
         <hr />
         <hr />
       </div>

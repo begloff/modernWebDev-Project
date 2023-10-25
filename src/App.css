@@ -220,7 +220,6 @@ input:checked + .slider:before {
   text-align: center;
 }
 
-
 .navbar {
   background-color: #333; /* Background color for the navbar */
   color: #fff; /* Text color for the links */
@@ -238,8 +237,17 @@ input:checked + .slider:before {
   text-decoration: underline; /* Add an underline on hover */
 }
 
+.dropCol:hover {
+  background-color: #b92929;
+}
 
+.trashIcon {
+  color: red;
+}
 
+.dropCol:hover .trashIcon {
+  color: white; /* Color on hover */
+}
 
 /* This css file is a mess */
 /* Once switch over to react will split into multiple files */
