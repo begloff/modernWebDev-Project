@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const TransactionTable = ({
   transactions,
   toggleEditTransactionModal,
@@ -19,7 +22,8 @@ const TransactionTable = ({
                 <th>Description</th>
                 <th>Price</th>
                 <th>Store</th>
-                <th>X</th>
+
+                <th style={{ textAlign: "center" }}>X</th>
               </tr>
             </thead>
             <tbody>
@@ -44,8 +48,9 @@ const TransactionTable = ({
                       deleteTransaction(transaction.id);
                       updateDeletedTransaction(transaction.id);
                     }}
+                    style={{ textAlign: "center" }}
                   >
-                    Delete
+                    <FontAwesomeIcon icon={faTrash} className="trashIcon" />
                   </td>
                 </tr>
               ))}

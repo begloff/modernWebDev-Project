@@ -39,6 +39,11 @@ const SpendingHistory = () => {
     });
   }, []);
 
+  useEffect(() => {
+    // This effect will run whenever transactions or filteredTransactions change
+    setFilteredTransactions(transactions);
+  }, [transactions]);
+
   const handleQuery = (searchParams) => {
     //Controls data displayed in table, will need to be updated to include other fields
 

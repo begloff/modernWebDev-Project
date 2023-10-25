@@ -241,6 +241,14 @@ input:checked + .slider:before {
   background-color: #b92929;
 }
 
+.trashIcon {
+  color: red;
+}
+
+.dropCol:hover .trashIcon {
+  color: white; /* Color on hover */
+}
+
 /* This css file is a mess */
 /* Once switch over to react will split into multiple files */
 /* Will also need to utilize css grid */
