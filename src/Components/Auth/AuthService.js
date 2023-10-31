@@ -41,21 +41,20 @@ export const loginUser = (currUser) => {
 };
 
 export const logoutUser = () => {
+  const currentUser = Parse.User.current();
 
-    const currentUser = Parse.User.current();
-
-    if (currentUser) {
-        Parse.User.current.logout().then(
-        () => {
-            // User has been successfully logged out
-            Parse.User.current.authenticated = false;
-        })
-    }
-
+  if (currentUser) {
+    Parse.User.current.logout().then(() => {
+      // User has been successfully logged out
+      Parse.User.current.authenticated = false;
+    });
+  }
 };
 
 export const checkUser = () => {
   return Parse.User.current()?.authenticated;
 };
 
-
+export const getUser = () => {
+  return Parse.User?.current();
+};

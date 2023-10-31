@@ -1,4 +1,5 @@
 import Parse from "parse";
+import { getUser } from "../../Components/Auth/AuthService";
 
 // const url =
 //   "https://my-json-server.typicode.com/kellybuchanan/WebDev-Spring2021";
@@ -14,12 +15,24 @@ export const getAllTransactions = (accountId) => {
       className: "Accounts",
       objectId: accountId,
     };
-
     query.equalTo("account", account);
   }
-  return query.find().then((results) => {
-    return results;
-  });
+
+  const User = getUser();
+  if (User) {
+    var user = {
+      __type: "Pointer",
+      className: "_User",
+      objectId: User.id,
+    };
+    query.equalTo("user", user);
+
+    return query.find().then((results) => {
+      return results;
+    });
+  }
+
+  return [];
 };
 
 //Need to make Create, Update Delete Operations
