@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
+import { logoutUser } from "../Auth/AuthService.js";
 
-const Header = () => (
-  <header className="navbar">
-    <nav>
-      <div className="navbar-links">
-        <Link to="/">Home</Link>
-        <Link to="/transactions">Transaction History</Link>
-      </div>
-    </nav>
-  </header>
-);
+function Header() {
+
+  return (
+    <header className="navbar">
+      <nav>
+        <div className="navbar-links">
+          <Link to="/">Home</Link>
+          <Link to="/transactions">Transaction History</Link>
+          <Link to="/auth" onClick={logoutUser}>Logout</Link>
+        </div>
+      </nav>
+    </header>
+  );
+}
 
 export default Header;
