@@ -45,10 +45,11 @@ export const logoutUser = () => {
     const currentUser = Parse.User.current();
 
     if (currentUser) {
-        Parse.User.current.logout().then(
+        Parse.User.logOut().then(
         () => {
             // User has been successfully logged out
-            Parse.User.current.authenticated = false;
+
+            console.log('logged out', Parse.User.current())            // Parse.User.current.authenticated = false;
         })
     }
 
