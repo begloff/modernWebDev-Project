@@ -41,6 +41,7 @@ export const loginUser = (currUser) => {
 };
 
 export const logoutUser = () => {
+  const currentUser = Parse.User.current();
 
     const currentUser = Parse.User.current();
 
@@ -59,4 +60,6 @@ export const checkUser = () => {
   return Parse.User.current()?.authenticated;
 };
 
-
+export const getUser = () => {
+  return Parse.User?.current();
+};
