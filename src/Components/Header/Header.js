@@ -1,35 +1,41 @@
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logoutUser } from "../Auth/AuthService.js";
-import { useEffect, useState } from "react";
+import { checkUser, logoutUser } from "../Auth/AuthService.js";
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const [logoutFlag, setLogoutFlag] = useState(false);
-
-  useEffect(() => {
-    if (logoutFlag) { // Use logoutFlag directly as a boolean
-      logoutUser();
-      navigate("/auth");
-      setLogoutFlag(false);
-    }
-  }, [logoutFlag, navigate]); // Include logoutFlag as a dependency
-
   const handleLogout = () => {
-    setLogoutFlag(true);
+    logoutUser();
+    navigate("/auth");
   };
 
   return (
-    <header className="navbar">
-      <nav>
-        <div className="navbar-links">
-          <Link to="/">Home</Link>
-          <Link to="/transactions">Transaction History</Link>
-          <p to="/auth" onClick={handleLogout}>Logout</p>
-        </div>
-      </nav>
-    </header>
+    <nav className="navbar">
+      {checkUser() ? (
+        <ul className="navbar-list">
+          <li className="navbar-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/transactions">Transaction History</Link>
+          </li>
+          <li className="navbar-item" onClick={handleLogout}>
+            Logout
+          </li>
+        </ul>
+      ) : (
+        <ul className="navbar-list">
+          <li className="navbar-item">
+            <Link to="/auth/register">Register</Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/auth/login">Login</Link>
+          </li>
+        </ul>
+      )}
+    </nav>
   );
-}
+};
 
 export default Header;

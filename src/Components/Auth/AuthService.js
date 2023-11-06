@@ -43,17 +43,13 @@ export const loginUser = (currUser) => {
 export const logoutUser = () => {
   const currentUser = Parse.User.current();
 
-    const currentUser = Parse.User.current();
+  if (currentUser) {
+    Parse.User.logOut().then(() => {
+      // User has been successfully logged out
 
-    if (currentUser) {
-        Parse.User.logOut().then(
-        () => {
-            // User has been successfully logged out
-
-            console.log('logged out', Parse.User.current())            // Parse.User.current.authenticated = false;
-        })
-    }
-
+      console.log("logged out", Parse.User.current()); // Parse.User.current.authenticated = false;
+    });
+  }
 };
 
 export const checkUser = () => {

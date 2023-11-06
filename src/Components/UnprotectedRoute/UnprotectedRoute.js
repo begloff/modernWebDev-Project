@@ -7,12 +7,12 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!checkUser()) {
-      navigate("/auth");
+    if (checkUser()) {
+      navigate("/");
     }
-  }, [navigate]);
+  }, [navigate]); // Empty dependency array ensures this effect runs once, similar to componentDidMount
 
-  return checkUser() ? <Component /> : null;
+  return !checkUser() ? <Component /> : null;
 };
 
 export default ProtectedRoute;

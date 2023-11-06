@@ -5,7 +5,13 @@ import AuthModule from "./Auth/Auth.js";
 import AuthRegister from "./Auth/AuthRegister";
 import AuthLogin from "./Auth/AuthLogin";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.js";
-import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import UnprotectedRoute from "./UnprotectedRoute/UnprotectedRoute.js";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 // Highest level component: routes and imports all child components
 export default function Components() {
@@ -13,13 +19,24 @@ export default function Components() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/auth" element={<AuthModule />} />
-        <Route path="/auth/register" element={<AuthRegister />} />
-        <Route path="/auth/login" element={<AuthLogin />} />
-        <Route path="/transactions/:accountId?" element={<ProtectedRoute path="/" element={SpendingHistory} />} />
+        <Route
+          path="/auth"
+          element={<UnprotectedRoute path="/auth" element={AuthModule} />}
+        />
+        <Route
+          path="/auth/register"
+          element={<UnprotectedRoute path="/auth" element={AuthRegister} />}
+        />
+        <Route
+          path="/auth/login"
+          element={<UnprotectedRoute path="/auth" element={AuthLogin} />}
+        />
+        <Route
+          path="/transactions/:accountId?"
+          element={<ProtectedRoute path="/" element={SpendingHistory} />}
+        />
         <Route path="/" element={<ProtectedRoute path="/" element={Home} />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-
+        <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     </Router>
   );
