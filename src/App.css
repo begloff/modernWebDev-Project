@@ -287,3 +287,35 @@ input:checked + .slider:before {
 /* This css file is a mess */
 /* Once switch over to react will split into multiple files */
 /* Will also need to utilize css grid */
+
+.navbar {
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Light text color */
+  padding: 10px 20px;
+}
+
+.navbar-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  font-weight: bold;
+}
+
+.navbar-item {
+  margin-right: 10px;
+}
+
+.navbar-item:last-child {
+  margin-right: 0;
+}
+
+.navbar-item a {
+  text-decoration: none;
+  color: #fff; /* Light text color */
+  font-size: 16px;
+}
+
+.navbar-item:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
