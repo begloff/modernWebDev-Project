@@ -10,7 +10,7 @@ export const createUser = (newUser) => {
   user.set("password", newUser.password);
   user.set("email", newUser.email);
 
-  console.log("User: ", user);
+  //Async create user request
   return user
     .signUp()
     .then((newUserSaved) => {
@@ -28,8 +28,6 @@ export const loginUser = (currUser) => {
   user.set("password", currUser.password);
   user.set("username", currUser.email);
 
-  console.log("User: ", user);
-  console.log();
   return user
     .logIn(user.email, user.password)
     .then((currUserSaved) => {
@@ -41,21 +39,22 @@ export const loginUser = (currUser) => {
 };
 
 export const logoutUser = () => {
+  //Used in conjunction with redirection to auth component --> sequential
   const currentUser = Parse.User.current();
 
   if (currentUser) {
     Parse.User.logOut().then(() => {
       // User has been successfully logged out
-
-      console.log("logged out", Parse.User.current()); // Parse.User.current.authenticated = false;
     });
   }
 };
 
+//Used for route verification
 export const checkUser = () => {
   return Parse.User.current()?.authenticated;
 };
 
+//Future work: Used to create new account and associate with the appropriate userid
 export const getUser = () => {
   return Parse.User?.current();
 };

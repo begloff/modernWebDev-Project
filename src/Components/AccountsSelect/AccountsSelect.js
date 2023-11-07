@@ -46,6 +46,7 @@ const AccountsSelect = ({ accounts }) => {
         </div>
       </div>
       <div className="row">
+        {/* Future Work: Make new account actually functional */}
         <button className="btn btn-primary" style={{ marginTop: "25px" }}>
           Create New Account
         </button>

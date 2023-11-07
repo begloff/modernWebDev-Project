@@ -10,7 +10,7 @@ const AuthRegister = () => {
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   // flags in the state to watch for add/remove updates
@@ -43,21 +43,20 @@ const AuthRegister = () => {
 
   const onChangeHandler = (e) => {
     e.preventDefault();
-    console.log(e.target);
     const { name, value: newValue } = e.target;
-    console.log(newValue);
 
     setNewUser({
       ...newUser,
-      [name]: newValue
+      [name]: newValue,
     });
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("submitted: ", e.target);
     setAdd(true);
   };
+
+  //Parent Child --> AuthForm handles state
 
   return (
     <div>

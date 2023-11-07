@@ -20,6 +20,8 @@ const Home = () => {
           <p>Efficiently Manage Your Finances</p>
         </header>
 
+        {/* Future Work - make the summary reactive: not just fake numbers */}
+
         <main className="content">
           <section className="summary">
             <h2>Financial Summary</h2>
