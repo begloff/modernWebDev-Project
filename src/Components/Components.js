@@ -1,9 +1,9 @@
 import SpendingHistory from "./SpendingHistory/SpendingHistory";
 import Home from "./Home/Home";
 import Header from "./Header/Header";
-import AuthModule from "./Auth/Auth.js";
-import AuthRegister from "./Auth/AuthRegister";
-import AuthLogin from "./Auth/AuthLogin";
+import AuthModule from "./Auth/Login/Auth.js";
+import AuthRegister from "./Auth/Register/AuthRegister";
+// import AuthLogin from "./Auth/AuthLogin";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.js";
 import UnprotectedRoute from "./UnprotectedRoute/UnprotectedRoute.js";
 import {
@@ -15,6 +15,7 @@ import {
 
 // Highest level component: routes and imports all child components
 export default function Components() {
+
   return (
     <Router>
       <Header />
@@ -27,10 +28,10 @@ export default function Components() {
           path="/auth/register"
           element={<UnprotectedRoute path="/auth" element={AuthRegister} />}
         />
-        <Route
+        {/* <Route
           path="/auth/login"
           element={<UnprotectedRoute path="/auth" element={AuthLogin} />}
-        />
+        /> */}
         <Route
           path="/transactions/:accountId?"
           element={<ProtectedRoute path="/" element={SpendingHistory} />}

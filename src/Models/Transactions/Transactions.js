@@ -1,5 +1,5 @@
 import Parse from "parse";
-import { getUser } from "../../Components/Auth/AuthService";
+import { getUser } from "../../Components/Auth/Services/AuthService";
 
 // const url =
 //   "https://my-json-server.typicode.com/kellybuchanan/WebDev-Spring2021";

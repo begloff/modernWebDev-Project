@@ -1,0 +1,52 @@
+.authBackgroundReg {
+    background-color: antiquewhite;
+    height: 100vh;
+}
+
+.titleReg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+.imageReg {
+    width: 24vw;
+    margin: auto;
+    margin-top: 5vh;
+    margin-left: 3vh;
+}
+
+
+.titleReg > h1 { 
+    color: black;
+    margin-top: 2%;
+}
+
+.titleReg > div {
+    text-align: center;
+}
+
+.authBoxReg {
+    width: 82%;
+    background-color: aliceblue;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    margin-top: 1%;
+    height: 66%;
+    padding: 4%;
+    text-align: center;
+}
+
+.form-groupReg {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 3.5%;
+}
+
+.form-groupReg > label {
+    color: black;
+    float: left;
+    /* font-family: ; */
+}
