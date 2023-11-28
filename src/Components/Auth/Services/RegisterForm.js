@@ -3,10 +3,13 @@ import "../Register/Register.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from "@mui/icons-material/Lock";
+import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 
 const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +20,7 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
         <TextField
           type="text"
           className="form-controlReg"
-          label="First Name"
+          label="Your first name"
           id="first-name-input"
           value={user.firstName}
           onChange={onChange}
@@ -31,7 +34,7 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
             style: { fontSize: "150%" },
             startAdornment: (
               <InputAdornment position="start" sx={{ width: "5%" }}>
-                <AccountCircleIcon />
+                <BadgeOutlinedIcon />
               </InputAdornment>
             ),
           }}
@@ -42,7 +45,7 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
         <TextField
           type="text"
           className="form-controlReg"
-          label="Last Name"
+          label="Your last name"
           id="last-name-input"
           value={user.lastName}
           onChange={onChange}
@@ -56,7 +59,7 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
             style: { fontSize: "150%" },
             startAdornment: (
               <InputAdornment position="start" sx={{ width: "5%" }}>
-                <AccountCircleIcon />
+                <BadgeTwoToneIcon />
               </InputAdornment>
             ),
           }}
@@ -81,7 +84,7 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
             style: { fontSize: "150%" },
             startAdornment: (
               <InputAdornment position="start" sx={{ width: "5%" }}>
-                <AccountCircleIcon />
+                <AccountCircle />
               </InputAdornment>
             ),
           }}
