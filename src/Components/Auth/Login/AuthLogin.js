@@ -9,7 +9,7 @@ const AuthLogin = () => {
   // redirect already authenticated users back to home
   const [currentUser, setCurrentUser] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   // flags in the state to watch for add/remove updates
@@ -40,19 +40,16 @@ const AuthLogin = () => {
 
   const onChangeHandler = (e) => {
     e.preventDefault();
-    console.log(e.target);
     const { name, value: newValue } = e.target;
-    console.log(newValue);
 
     setCurrentUser({
       ...currentUser,
-      [name]: newValue
+      [name]: newValue,
     });
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("submitted: ", e.target);
     setAdd(true);
   };
 
