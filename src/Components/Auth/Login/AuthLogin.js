@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { checkUser, createUser } from "./AuthService";
-import AuthForm from "./AuthForm";
+import { checkUser, loginUser } from "../Services/AuthService";
+import AuthForm from "../Services/LoginForm";
 import { useNavigate } from "react-router-dom";
 
-const AuthRegister = () => {
+const AuthLogin = () => {
   const navigate = useNavigate();
 
-  const [newUser, setNewUser] = useState({
-    firstName: "",
-    lastName: "",
+  // redirect already authenticated users back to home
+  const [currentUser, setCurrentUser] = useState({
     email: "",
     password: "",
   });
@@ -16,7 +15,6 @@ const AuthRegister = () => {
   // flags in the state to watch for add/remove updates
   const [add, setAdd] = useState(false);
 
-  // redirect already authenticated users back to home
   useEffect(() => {
     if (checkUser()) {
       alert("You are already logged in");
@@ -26,12 +24,11 @@ const AuthRegister = () => {
 
   // useEffect that run when changes are made to the state variable flags
   useEffect(() => {
-    // checkUser() ? history.push("/home"): null;
-    if (newUser && add) {
-      createUser(newUser).then((userCreated) => {
-        if (userCreated) {
+    if (currentUser && add) {
+      loginUser(currentUser).then((userLoggedIn) => {
+        if (userLoggedIn) {
           alert(
-            `${userCreated.get("firstName")}, you successfully registered!`
+            `${userLoggedIn.get("firstName")}, you successfully logged in!`
           );
           navigate("/");
         }
@@ -39,14 +36,14 @@ const AuthRegister = () => {
         setAdd(false);
       });
     }
-  }, [navigate, newUser, add]);
+  }, [navigate, currentUser, add]);
 
   const onChangeHandler = (e) => {
     e.preventDefault();
     const { name, value: newValue } = e.target;
 
-    setNewUser({
-      ...newUser,
+    setCurrentUser({
+      ...currentUser,
       [name]: newValue,
     });
   };
@@ -56,12 +53,11 @@ const AuthRegister = () => {
     setAdd(true);
   };
 
-  //Parent Child --> AuthForm handles state
-
   return (
     <div>
       <AuthForm
-        user={newUser}
+        user={currentUser}
+        isLogin={true}
         onChange={onChangeHandler}
         onSubmit={onSubmitHandler}
       />
@@ -69,4 +65,4 @@ const AuthRegister = () => {
   );
 };
 
-export default AuthRegister;
+export default AuthLogin;

@@ -14,8 +14,6 @@ const AuthModule = () => {
     }
   }, [navigate]);
 
-  //Future Work: Make an actual home page: not necessary to have a page with just links to register and login
-
   return (
     <div>
       <Link to="/auth/register">

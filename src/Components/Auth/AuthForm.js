@@ -77,3 +77,4 @@ const AuthForm = ({ user, isLogin, onChange, onSubmit }) => {
 };
 
 export default AuthForm;
+

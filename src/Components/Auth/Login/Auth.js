@@ -1,15 +1,26 @@
+import { useNavigate, Link } from "react-router-dom";
+import { checkUser, loginUser } from "../Services/AuthService";
+// import Button from "@mui/material/Button";
+import LogoImage from "../BudgetBuddyLogo.png"
+import "./Login.css"
+import AuthForm from "../Services/LoginForm";
 import React, { useEffect, useState } from "react";
-import { checkUser, loginUser } from "./AuthService";
-import AuthForm from "./AuthForm";
-import { useNavigate } from "react-router-dom";
 
-const AuthLogin = () => {
+
+
+const AuthModule = () => {
   const navigate = useNavigate();
 
   // redirect already authenticated users back to home
+  useEffect(() => {
+    if (checkUser()) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const [currentUser, setCurrentUser] = useState({
     email: "",
-    password: "",
+    password: ""
   });
 
   // flags in the state to watch for add/remove updates
@@ -27,9 +38,6 @@ const AuthLogin = () => {
     if (currentUser && add) {
       loginUser(currentUser).then((userLoggedIn) => {
         if (userLoggedIn) {
-          alert(
-            `${userLoggedIn.get("firstName")}, you successfully logged in!`
-          );
           navigate("/");
         }
         // TODO: redirect user to main app
@@ -40,29 +48,43 @@ const AuthLogin = () => {
 
   const onChangeHandler = (e) => {
     e.preventDefault();
+    console.log(e.target);
     const { name, value: newValue } = e.target;
+    console.log(newValue);
 
     setCurrentUser({
       ...currentUser,
-      [name]: newValue,
+      [name]: newValue
     });
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    console.log("submitted: ", e.target);
     setAdd(true);
   };
 
   return (
-    <div>
-      <AuthForm
-        user={currentUser}
-        isLogin={true}
-        onChange={onChangeHandler}
-        onSubmit={onSubmitHandler}
-      />
+    <div className="authBackground">
+      <div className="title">
+        <img className="image" src={LogoImage} alt=""></img>
+        <h1>Welcome to BudgetBuddy, your personal finance tool!</h1>
+      </div>
+
+      <div className="authBox">
+        <AuthForm
+          user={currentUser}
+          onChange={onChangeHandler}
+          onSubmit={onSubmitHandler}
+        />
+
+
+        <Link to="/auth/register" className="link">
+          Don't have an account?
+        </Link>
+      </div>  
     </div>
   );
 };
 
-export default AuthLogin;
+export default AuthModule;
