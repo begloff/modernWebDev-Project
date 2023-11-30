@@ -49,9 +49,7 @@ const Modal = ({
   };
 
   const closeArgs = useMemo(() => {
-    if (modalForm?.title !== "Edit Transaction") {
-      return [modalForm?.data, modalForm, setModalFormData, setUpdate, true];
-    } else {
+    if (modalForm?.title.toLowerCase().includes("edit")) {
       return [
         modalForm?.data,
         modalForm?.id,
@@ -60,6 +58,8 @@ const Modal = ({
         setUpdate,
         true,
       ];
+    } else {
+      return [modalForm?.data, modalForm, setModalFormData, setUpdate, true];
     }
   }, [modalForm, setModalFormData, setUpdate]);
 
@@ -135,9 +135,9 @@ const Modal = ({
           className="btn btn-primary"
           onClick={() => preCloseModal(closeArgs)}
         >
-          {modalForm?.title === "Edit Transaction"
-            ? "Update Transaction"
-            : "Create Transaction"}
+          {modalForm?.title.toLowerCase().includes("edit")
+            ? `Update ${modalForm?.title.split(" ")[1]}`
+            : `Create ${modalForm?.title.split(" ")[1]}`}
         </button>
       </div>
     </div>
