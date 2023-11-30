@@ -2,15 +2,63 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-const AccountsSelect = ({ accounts }) => {
+const AccountsSelect = ({
+  accounts,
+  openModal,
+  modalForm,
+  setModalFormData,
+  finishAccountEdit,
+  finishAccountCreate,
+  updateDeletedAccount,
+  deleteAccount,
+}) => {
   const navigate = useNavigate();
 
   const handleClick = (id) => {
     navigate(`/transactions/${id}`);
   };
+
   if (!accounts) {
     return <div>Loading...</div>;
   }
+
+  const formFields = [
+    {
+      name: "accountName",
+      type: "string",
+    },
+  ];
+
+  const handleButtonClick = (event, item) => {
+    event.stopPropagation();
+    if (item) {
+      openModal(
+        "Edit Account",
+        formFields,
+        {
+          accountName: item.attributes.accountName,
+          balance: item.attributes.balance,
+          user: item.attributes.user,
+        },
+        setModalFormData,
+        item.id,
+        finishAccountEdit
+      );
+    } else {
+      openModal(
+        "New Account",
+        formFields,
+        {
+          accountName: "",
+          balance: 0,
+          user: "",
+        },
+        setModalFormData,
+        undefined,
+        finishAccountCreate
+      );
+    }
+  };
 
   return (
     <div>
@@ -30,12 +78,22 @@ const AccountsSelect = ({ accounts }) => {
                 <p>Balance: ${item.attributes.balance}</p>
                 <div className="row">
                   <div className="col">
-                    <button className="btn btn-primary">
+                    <button
+                      className="btn btn-primary"
+                      onClick={(event) => handleButtonClick(event, item)}
+                    >
                       <FontAwesomeIcon icon={faPencilAlt} />
                     </button>
                   </div>
                   <div className="col">
-                    <button className="btn btn-danger">
+                    <button
+                      className="btn btn-danger"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteAccount(item.id);
+                        updateDeletedAccount(item.id);
+                      }}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
@@ -47,7 +105,11 @@ const AccountsSelect = ({ accounts }) => {
       </div>
       <div className="row">
         {/* Future Work: Make new account actually functional */}
-        <button className="btn btn-primary" style={{ marginTop: "25px" }}>
+        <button
+          className="btn btn-primary"
+          style={{ marginTop: "25px" }}
+          onClick={(event) => handleButtonClick(event, undefined)}
+        >
           Create New Account
         </button>
       </div>

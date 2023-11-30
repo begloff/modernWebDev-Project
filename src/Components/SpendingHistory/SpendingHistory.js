@@ -138,8 +138,6 @@ const SpendingHistory = () => {
       const updated = await updateTransaction(id, transaction);
 
       //Untrigger wait animation
-
-      // Some flag to update the table
       setUpdate(updated);
     }
 
@@ -160,10 +158,6 @@ const SpendingHistory = () => {
 
     setModalFormData({ ...modalForm, isOpen: false });
   };
-
-  // const toggleNewTransactionModal = (transaction) => {
-  //   setNewTransactionModal(true);
-  // };
 
   const updateDeletedTransaction = (transactionId) => {
     // Filter out the deleted transaction
