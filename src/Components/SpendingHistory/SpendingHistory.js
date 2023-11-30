@@ -8,22 +8,27 @@ import {
   updateTransaction,
   deleteTransaction,
 } from "../../Models/Transactions/Transactions.js";
-import { getAllUsers } from "../../Models/Users/Users.js";
 import { getAllAccounts } from "../../Models/Accounts/Accounts.js";
-import EditTransactionModal from "../EditTransactionModal/EditTransactionModal.js";
-import NewTransactionModal from "../NewTransactionModal/NewTransactionModal.js";
+import Modal from "../Modal/Modal.js";
 import TableQuery from "../TableQuery/TableQuery.js";
 import TransactionTable from "../TransactionTable/TransactionTable.js";
 
 const SpendingHistory = () => {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [newTransactionModal, setNewTransactionModal] = useState(false);
+  const [updateTable, setUpdate] = useState(undefined);
 
   const [accounts, setAccounts] = useState([]);
-  const [users, setUsers] = useState([]);
   const { accountId } = useParams();
+
+  const [modalForm, setModalFormData] = useState({
+    isOpen: false,
+    data: {},
+    fields: {},
+    title: "",
+    id: "",
+    closeModalFunc: () => {},
+  });
 
   useEffect(() => {
     // pull all transactions from json, set transactions, and filter transactions
@@ -42,16 +47,40 @@ const SpendingHistory = () => {
     getAllAccounts().then((accounts) => {
       setAccounts(accounts);
     });
-
-    getAllUsers().then((users) => {
-      setUsers(users);
-    });
   }, [accountId]);
 
   useEffect(() => {
     // This effect will run whenever transactions or filteredTransactions change
-    setFilteredTransactions(transactions);
-  }, [transactions]);
+    //Filtered Transactions should only contain the transactions in the current account
+
+    if (accountId) {
+      setFilteredTransactions(
+        transactions.filter(
+          (transaction) =>
+            transaction.attributes?.account?.id ??
+            transaction.attributes?.account?.objectId === accountId
+        )
+      );
+    } else {
+      setFilteredTransactions(transactions);
+    }
+  }, [transactions, accountId]);
+
+  useEffect(() => {
+    if (updateTable !== undefined) {
+      //loop through forms data and update any transactions that have been changed (id)
+      const ind = transactions.findIndex((obj) => obj.id === updateTable.id);
+      if (ind !== -1) {
+        const updatedTransactions = [...transactions];
+        updatedTransactions[ind] = updateTable;
+        setTransactions(updatedTransactions);
+      } else {
+        // Add the new transaction to the list
+        setTransactions([...transactions, updateTable]);
+      }
+    }
+    setUpdate(undefined);
+  }, [updateTable, transactions]);
 
   const handleQuery = (searchParams) => {
     //Controls data displayed in table, will need to be updated to include other fields
@@ -70,30 +99,71 @@ const SpendingHistory = () => {
     setFilteredTransactions(filteredTransactions);
   };
 
-  //Modal toggles are passed to other components to allow for the modal to be opened from other components
-  const toggleEditTransactionModal = (transaction) => {
-    setSelectedTransaction(transaction);
+  const openModal = (
+    title,
+    fields,
+    data,
+    setModalFormData,
+    id,
+    closeModalFunc
+  ) => {
+    // Set the title, fields, data and isopen of the modal
+    setModalFormData({
+      title: title,
+      fields: fields,
+      data: data,
+      isOpen: true,
+      id: id,
+      closeModalFunc: closeModalFunc,
+    });
   };
 
-  const closeEditModal = (transaction, id, post = false) => {
+  //Modal toggles are passed to other components to allow for the modal to be opened from other components
+  // const toggleEditTransactionModal = (transaction) => {
+  //   setSelectedTransaction(transaction);
+  // };
+
+  const finishEdit = async (
+    transaction = {},
+    id = "",
+    modalForm = {},
+    setModalFormData = {},
+    setUpdate = {},
+    post = false
+  ) => {
     // TODO: Submit to DB to Update existing entries
     if (post) {
-      updateTransaction(id, transaction);
+      //Trigger wait animation
+
+      const updated = await updateTransaction(id, transaction);
+
+      //Untrigger wait animation
+
+      // Some flag to update the table
+      setUpdate(updated);
     }
-    setSelectedTransaction(null);
+
+    setModalFormData({ ...modalForm, isOpen: false });
   };
 
-  const closeNewModal = (transaction, post = false) => {
-    //TODO: Set user and account based on current user
+  const finishNewTransaction = async (
+    transaction = {},
+    modalForm = {},
+    setModalFormData = {},
+    setUpdate = {},
+    post = false
+  ) => {
     if (post) {
-      createTransaction(transaction);
+      const newTransaction = await createTransaction(transaction);
+      setUpdate(newTransaction);
     }
-    setNewTransactionModal(false);
+
+    setModalFormData({ ...modalForm, isOpen: false });
   };
 
-  const toggleNewTransactionModal = (transaction) => {
-    setNewTransactionModal(true);
-  };
+  // const toggleNewTransactionModal = (transaction) => {
+  //   setNewTransactionModal(true);
+  // };
 
   const updateDeletedTransaction = (transactionId) => {
     // Filter out the deleted transaction
@@ -113,26 +183,27 @@ const SpendingHistory = () => {
           <h3>Transaction History</h3>
           <hr />
           <hr />
-          <EditTransactionModal
-            isOpen={selectedTransaction !== null}
-            closeModal={closeEditModal}
-            transaction={selectedTransaction}
-          />
-
-          <NewTransactionModal
-            isOpen={newTransactionModal}
-            closeModal={closeNewModal}
-          />
 
           <TableQuery onQuery={handleQuery} />
 
           <TransactionTable
             transactions={filteredTransactions}
-            toggleEditTransactionModal={toggleEditTransactionModal}
-            toggleNewTransactionModal={toggleNewTransactionModal}
-            setSelectedTransaction={setSelectedTransaction}
+            openModal={openModal}
+            modalForm={modalForm}
+            setModalFormData={setModalFormData}
+            finishEdit={finishEdit}
+            finishNewTransaction={finishNewTransaction}
             deleteTransaction={deleteTransaction}
             updateDeletedTransaction={updateDeletedTransaction}
+            account={accounts}
+          />
+
+          <Modal
+            isOpen={modalForm?.isOpen}
+            closeModal={modalForm?.closeModalFunc}
+            modalForm={modalForm}
+            setUpdate={setUpdate}
+            setModalFormData={setModalFormData}
           />
         </div>
       </div>
@@ -151,22 +222,6 @@ const SpendingHistory = () => {
                 .toFixed(2)}
             </h3>
           </div>
-        </div>
-      )}
-
-      {users.length > 0 && (
-        <div>
-          {users.map((user) => (
-            <p key={user.id}>{user.attributes.firstname}</p>
-          ))}
-        </div>
-      )}
-
-      {accounts.length > 0 && (
-        <div>
-          {accounts.map((account) => (
-            <p key={account.id}>{account.attributes.accountName}</p>
-          ))}
         </div>
       )}
     </div>

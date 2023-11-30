@@ -3,13 +3,59 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const TransactionTable = ({
   transactions,
-  toggleEditTransactionModal,
-  toggleNewTransactionModal,
-  setSelectedTransaction,
+  openModal,
+  modalForm,
+  setModalFormData,
+  finishEdit,
+  finishNewTransaction,
   deleteTransaction,
   updateDeletedTransaction,
+  account,
 }) => {
   // Table displays all transaction fields - alternating color based on css
+  const formFields = [
+    {
+      name: "date",
+      type: "date",
+    },
+    {
+      name: "type",
+      type: "select",
+      options: [
+        {
+          name: "Expense",
+          value: "expense",
+        },
+        {
+          name: "Income",
+          value: "income",
+        },
+      ],
+    },
+    {
+      name: "store",
+      type: "text",
+    },
+    {
+      name: "description",
+      type: "text",
+    },
+    {
+      name: "amount",
+      type: "number",
+    },
+    {
+      name: "account",
+      type: "select",
+      options: account.map((item) => {
+        return {
+          name: item.attributes.accountName,
+          value: item.id,
+        };
+      }),
+    },
+  ];
+
   return (
     <div className="row" style={{ marginTop: "25px" }}>
       <div className="col">
@@ -32,8 +78,23 @@ const TransactionTable = ({
                   style={{ cursor: "pointer" }}
                   key={transaction.id}
                   onClick={() => {
-                    toggleEditTransactionModal(transaction);
-                    setSelectedTransaction(transaction);
+                    openModal(
+                      "Edit Transaction",
+                      formFields,
+                      {
+                        date: transaction.attributes.date
+                          .toISOString()
+                          .split("T")[0],
+                        type: transaction.attributes.type,
+                        store: transaction.attributes.store,
+                        description: transaction.attributes.description,
+                        amount: transaction.attributes.amount,
+                        account: transaction.attributes.account.id,
+                      },
+                      setModalFormData,
+                      transaction.id,
+                      finishEdit
+                    );
                   }}
                 >
                   <td>{index + 1}</td>
@@ -60,7 +121,23 @@ const TransactionTable = ({
         <button
           className="btn btn-primary"
           style={{ marginBottom: "15px" }}
-          onClick={() => toggleNewTransactionModal()}
+          onClick={() => {
+            openModal(
+              "Create Transaction",
+              formFields,
+              {
+                date: "",
+                type: "",
+                store: "",
+                description: "",
+                amount: "",
+                account: "",
+              },
+              setModalFormData,
+              undefined,
+              finishNewTransaction
+            );
+          }}
         >
           Add New Transaction
         </button>

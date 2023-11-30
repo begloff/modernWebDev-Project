@@ -41,8 +41,24 @@ export const createTransaction = (data) => {
   const Transactions = Parse.Object.extend("Transactions");
   const transaction = new Transactions();
 
+  //Get user, and get current account (or pass to spending history)
+  const User = getUser();
+  var user = {
+    __type: "Pointer",
+    className: "_User",
+    objectId: User.id,
+  };
+
+  var account = {
+    __type: "Pointer",
+    className: "Accounts",
+    objectId: data.account,
+  };
+
   data.date = new Date(data.date);
   data.amount = Number(data.amount);
+  data.user = user;
+  data.account = account;
 
   for (const property in data) {
     if (data.hasOwnProperty(property)) {
@@ -67,6 +83,14 @@ export const updateTransaction = (objectId, data) => {
   if (data.amount) {
     data.amount = Number(data.amount);
   }
+
+  var account = {
+    __type: "Pointer",
+    className: "Accounts",
+    objectId: data.account,
+  };
+
+  data.account = account;
 
   return query.get(objectId).then((transaction) => {
     // Update properties based on your data model
