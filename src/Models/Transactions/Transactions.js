@@ -55,7 +55,8 @@ export const createTransaction = (data) => {
     objectId: data.account,
   };
 
-  data.date = new Date(data.date);
+  data.date = new Date(data.date + "T00:00:00");
+
   data.amount = Number(data.amount);
   data.user = user;
   data.account = account;

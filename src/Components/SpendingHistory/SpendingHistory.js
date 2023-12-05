@@ -8,7 +8,10 @@ import {
   updateTransaction,
   deleteTransaction,
 } from "../../Models/Transactions/Transactions.js";
-import { getAllAccounts } from "../../Models/Accounts/Accounts.js";
+import {
+  getAllAccounts,
+  updateAccountBalance,
+} from "../../Models/Accounts/Accounts.js";
 import Modal from "../Modal/Modal.js";
 import TableQuery from "../TableQuery/TableQuery.js";
 import TransactionTable from "../TransactionTable/TransactionTable.js";
@@ -50,9 +53,34 @@ const SpendingHistory = () => {
   }, [accountId]);
 
   useEffect(() => {
-    // This effect will run whenever transactions or filteredTransactions change
-    //Filtered Transactions should only contain the transactions in the current account
+    // This effect will run whenever transactions or accountId changes
 
+    // Calculate total balances for each account
+    const accountBalances = {};
+
+    transactions.forEach((transaction) => {
+      const transactionAccountId =
+        transaction.attributes?.account?.id ??
+        transaction.attributes?.account?.objectId;
+
+      if (transactionAccountId) {
+        const amount = Number(transaction.attributes.amount);
+        if (transaction.attributes.type === "income") {
+          accountBalances[transactionAccountId] =
+            (accountBalances[transactionAccountId] || 0) + amount;
+        } else if (transaction.attributes.type === "expense") {
+          accountBalances[transactionAccountId] =
+            (accountBalances[transactionAccountId] || 0) - amount;
+        }
+      }
+    });
+
+    // Update account balances for each account
+    Object.keys(accountBalances).forEach((accountId) => {
+      updateAccountBalance(accountId, accountBalances[accountId]);
+    });
+
+    // Update filtered transactions based on the selected account
     if (accountId) {
       setFilteredTransactions(
         transactions.filter(
@@ -206,13 +234,17 @@ const SpendingHistory = () => {
           <div className="col">
             <h3>
               {" "}
-              Total Spent: $
+              Total Balance: $
               {filteredTransactions
-                .reduce(
-                  (total, transaction) =>
-                    total + Number(transaction.attributes.amount),
-                  0
-                )
+                .reduce((total, transaction) => {
+                  const amount = Number(transaction.attributes.amount);
+                  if (transaction.attributes.type === "income") {
+                    return total + amount;
+                  } else if (transaction.attributes.type === "expense") {
+                    return total - amount;
+                  }
+                  return total;
+                }, 0)
                 .toFixed(2)}
             </h3>
           </div>
