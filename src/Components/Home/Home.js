@@ -8,6 +8,7 @@ import {
   createAccount,
   deleteAccount,
 } from "../../Models/Accounts/Accounts";
+import { getAllTransactions } from "../../Models/Transactions/Transactions";
 
 const Home = () => {
   // return the HTML for everything on the page
@@ -16,8 +17,12 @@ const Home = () => {
     getAllAccounts().then((results) => {
       setAccounts(results);
     });
+    getAllTransactions().then((results) => {
+      setTransactions(results);
+    });
   }, []);
 
+  const [transactions, setTransactions] = useState([]);
   const [updateAccounts, setUpdate] = useState(undefined);
 
   const finishAccountEdit = async (
@@ -138,6 +143,7 @@ const Home = () => {
 
       <AccountsSelect
         accounts={accounts}
+        transactions={transactions}
         openModal={openModal}
         modalForm={modalForm}
         setModalFormData={setModalFormData}

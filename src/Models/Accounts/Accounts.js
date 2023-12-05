@@ -46,6 +46,20 @@ export const updateAccount = (objectId, data) => {
   });
 };
 
+export const updateAccountBalance = (objectId, amount) => {
+  const Accounts = Parse.Object.extend("Accounts");
+  const query = new Parse.Query(Accounts);
+
+  return query.get(objectId).then((transaction) => {
+    // Update properties based on your data model
+    transaction.set("balance", amount);
+
+    return transaction.save().then((result) => {
+      return result;
+    });
+  });
+};
+
 export const createAccount = (data) => {
   const Accounts = Parse.Object.extend("Accounts");
   const account = new Accounts();
