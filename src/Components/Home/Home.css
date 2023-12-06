@@ -1,27 +1,33 @@
 .homepage {
-    background-color: #f5f5f5; /* Background color for the homepage */
+    background-color: antiquewhite; /* Background color for the homepage */
     font-family: Arial, sans-serif; /* Choose an appropriate font */
     padding: 20px;
     text-align: center;
+    height: 100%;
   }
   
   .header {
-    background-color: #333; /* Background color for the header */
-    color: #fff; /* Text color for the header */
+    background-color: #ffffff; /* Background color for the header */
     padding: 20px;
+    margin-bottom: 0;
   }
   
   .content {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-top: 0;
   }
   
   .summary {
     width: 45%;
     margin: 10px;
     padding: 20px;
-    background-color: #333;
+    background-color: #ffffff; /* Background color for the header */
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2, p {
+    color: black
   }

@@ -3,6 +3,7 @@ import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
 import { useEffect, useState } from "react";
+import "./AccountSelect.css"
 
 const AccountsSelect = ({
   accounts,
@@ -197,7 +198,7 @@ const AccountsSelect = ({
   }, [accounts, transactions]);
 
   return (
-    <div>
+    <div className="accountSelect">
       <div className="row">
         <h2 style={{ marginTop: "25px" }}>Accounts:</h2>
       </div>
