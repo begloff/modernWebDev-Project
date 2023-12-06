@@ -37,11 +37,20 @@ const SpendingHistory = () => {
     // pull all transactions from json, set transactions, and filter transactions
     if (accountId) {
       getAllTransactions(accountId).then((transactions) => {
+        //sort transactions by date
+        transactions.sort((a, b) => {
+          return new Date(b.attributes.date) - new Date(a.attributes.date);
+        });
+
         setTransactions(transactions);
         setFilteredTransactions(transactions);
       });
     } else {
       getAllTransactions(accountId).then((transactions) => {
+        transactions.sort((a, b) => {
+          return new Date(b.attributes.date) - new Date(a.attributes.date);
+        });
+
         setTransactions(transactions);
         setFilteredTransactions(transactions);
       });
@@ -118,11 +127,30 @@ const SpendingHistory = () => {
       return;
     }
 
+    //loop through attributes and filter that way
+    //description, store, date, amountMin, amountMax
+
     // filter transactions based on input
-    const filteredTransactions = transactions.filter((transaction) =>
-      transaction.attributes.description
-        .toLowerCase()
-        .includes(searchParams.toLowerCase())
+    const filteredTransactions = transactions.filter(
+      (transaction) =>
+        transaction.attributes.description
+          .toLowerCase()
+          .includes(searchParams.description.toLowerCase()) &&
+        transaction.attributes.store
+          .toLowerCase()
+          .includes(searchParams.store.toLowerCase()) &&
+        (searchParams.startDate === "" ||
+          new Date(transaction.attributes.date) >=
+            new Date(searchParams.startDate)) &&
+        (searchParams.endDate === "" ||
+          new Date(transaction.attributes.endDate) <=
+            new Date(searchParams.endDate)) &&
+        (searchParams.amountMin === "" ||
+          Number(transaction.attributes.amount) >=
+            Number(searchParams.amountMin)) &&
+        (searchParams.amountMax === "" ||
+          Number(transaction.attributes.amount) <=
+            Number(searchParams.amountMax))
     );
     setFilteredTransactions(filteredTransactions);
   };
@@ -210,6 +238,8 @@ const SpendingHistory = () => {
 
           <TransactionTable
             transactions={filteredTransactions}
+            setTransactions={setFilteredTransactions}
+            accounts={accounts}
             openModal={openModal}
             modalForm={modalForm}
             setModalFormData={setModalFormData}
