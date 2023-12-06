@@ -3,7 +3,6 @@ import Home from "./Home/Home";
 import Header from "./Header/Header";
 import AuthModule from "./Auth/Login/Auth.js";
 import AuthRegister from "./Auth/Register/AuthRegister";
-// import AuthLogin from "./Auth/AuthLogin";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.js";
 import UnprotectedRoute from "./UnprotectedRoute/UnprotectedRoute.js";
 import {
@@ -28,10 +27,6 @@ export default function Components() {
           path="/auth/register"
           element={<UnprotectedRoute path="/auth" element={AuthRegister} />}
         />
-        {/* <Route
-          path="/auth/login"
-          element={<UnprotectedRoute path="/auth" element={AuthLogin} />}
-        /> */}
         <Route
           path="/transactions/:accountId?"
           element={<ProtectedRoute path="/" element={SpendingHistory} />}
