@@ -1,33 +1,35 @@
 .homepage {
-    background-color: antiquewhite; /* Background color for the homepage */
-    font-family: Arial, sans-serif; /* Choose an appropriate font */
-    padding: 20px;
-    text-align: center;
-    height: 100%;
-  }
-  
-  .header {
-    background-color: #ffffff; /* Background color for the header */
-    padding: 20px;
-    margin-bottom: 0;
-  }
-  
-  .content {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 0;
-  }
-  
-  .summary {
-    width: 45%;
-    margin: 10px;
-    padding: 20px;
-    background-color: #ffffff; /* Background color for the header */
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+  background-color: antiquewhite; /* Background color for the homepage */
+  font-family: Arial, sans-serif; /* Choose an appropriate font */
+  padding: 20px;
+  text-align: center;
+  height: 100%;
+}
 
-  h1, h2, p {
-    color: black
-  }
+.header {
+  background-color: #ffffff; /* Background color for the header */
+  padding: 20px;
+  margin-bottom: 0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+.summary {
+  width: 65%;
+  margin: 10px;
+  padding: 20px;
+  background-color: #ffffff; /* Background color for the header */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2,
+p {
+  color: black;
+}
