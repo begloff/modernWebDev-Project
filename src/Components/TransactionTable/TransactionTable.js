@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const TransactionTable = ({
   transactions,
+  setTransactions,
+  accounts,
   openModal,
   modalForm,
   setModalFormData,
@@ -56,6 +59,55 @@ const TransactionTable = ({
     },
   ];
 
+  const [sortOrder, setSortOrder] = useState({ dateSort: false });
+
+  const handleSort = (columnName) => {
+    const propertyName = `${columnName}Sort`;
+
+    if (propertyName in sortOrder) {
+      setSortOrder({
+        [propertyName]: !sortOrder[propertyName],
+      });
+    } else {
+      setSortOrder({
+        [propertyName]: true,
+      });
+    }
+
+    // Sort by column name and sort order propertyname
+    const sortedTransactions = [...transactions].sort((a, b) => {
+      if (columnName === "store" || columnName === "description") {
+        if (
+          a.attributes[columnName].toLowerCase() <
+          b.attributes[columnName].toLowerCase()
+        ) {
+          return -1;
+        } else if (
+          a.attributes[columnName].toLowerCase() >
+          b.attributes[columnName].toLowerCase()
+        ) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+
+      if (a.attributes[columnName] < b.attributes[columnName]) {
+        return -1;
+      } else if (a.attributes[columnName] > b.attributes[columnName]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    if (sortOrder[propertyName]) {
+      sortedTransactions.reverse();
+    }
+
+    setTransactions(sortedTransactions);
+  };
+
   return (
     <div className="row" style={{ marginTop: "25px" }}>
       <div className="col">
@@ -63,11 +115,51 @@ const TransactionTable = ({
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Store</th>
+                <th></th>
+                <th
+                  onClick={() => handleSort("date")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Date
+                  {"dateSort" in sortOrder && (
+                    <span className="arrow">
+                      {`${sortOrder["dateSort"] ? "\u25B2" : "\u25BC"}`}
+                    </span>
+                  )}
+                </th>
+                <th
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("description")}
+                >
+                  Description
+                  {"descriptionSort" in sortOrder && (
+                    <span className="arrow">
+                      {`${sortOrder["descriptionSort"] ? "\u25B2" : "\u25BC"}`}
+                    </span>
+                  )}
+                </th>
+                <th
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("amount")}
+                >
+                  Amount
+                  {"amountSort" in sortOrder && (
+                    <span className="arrow">
+                      {`${sortOrder["amountSort"] ? "\u25B2" : "\u25BC"}`}
+                    </span>
+                  )}
+                </th>
+                <th
+                  onClick={() => handleSort("store")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Store
+                  {"storeSort" in sortOrder && (
+                    <span className="arrow">
+                      {`${sortOrder["storeSort"] ? "\u25B2" : "\u25BC"}`}
+                    </span>
+                  )}
+                </th>
 
                 <th style={{ textAlign: "center" }}>X</th>
               </tr>
@@ -100,7 +192,7 @@ const TransactionTable = ({
                   <td>{index + 1}</td>
                   <td>{transaction.attributes.date.toDateString()}</td>
                   <td>{transaction.attributes.description}</td>
-                  <td>${transaction.attributes.amount}</td>
+                  <td>${transaction.attributes.amount.toFixed(2)}</td>
                   <td>{transaction.attributes.store}</td>
                   <td
                     className="dropCol"
@@ -138,6 +230,7 @@ const TransactionTable = ({
               finishNewTransaction
             );
           }}
+          disabled={accounts.length === 0}
         >
           Add New Transaction
         </button>

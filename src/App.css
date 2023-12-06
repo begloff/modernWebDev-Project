@@ -153,6 +153,11 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn:hover {
   background-color: #0056b3;
 }
@@ -168,6 +173,7 @@ input:checked + .slider:before {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  display: inline-block;
 }
 
 .form-control:focus {
