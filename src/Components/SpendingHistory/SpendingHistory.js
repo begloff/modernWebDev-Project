@@ -234,6 +234,32 @@ const SpendingHistory = () => {
       <div className="tHeader">
         <h1>Finance Manager</h1>
         <h2>{user.get("firstName")} {user.get("lastName")} Transaction History</h2>
+          <hr />
+          <hr />
+          <TableQuery onQuery={handleQuery} />
+
+          <TransactionTable
+            transactions={filteredTransactions}
+            setTransactions={setFilteredTransactions}
+            accounts={accounts}
+            openModal={openModal}
+            modalForm={modalForm}
+            setModalFormData={setModalFormData}
+            finishEdit={finishEdit}
+            finishNewTransaction={finishNewTransaction}
+            deleteTransaction={deleteTransaction}
+            updateDeletedTransaction={updateDeletedTransaction}
+            account={accountId}
+          />
+
+          <Modal
+            isOpen={modalForm?.isOpen}
+            closeModal={modalForm?.closeModalFunc}
+            modalForm={modalForm}
+            setUpdate={setUpdate}
+            setModalFormData={setModalFormData}
+          />
+        </div>
       </div>
 
       <div className="table">

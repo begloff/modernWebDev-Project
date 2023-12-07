@@ -3,7 +3,7 @@ import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
 import { useEffect, useState } from "react";
-import "./AccountSelect.css"
+import "./AccountSelect.css";
 
 const AccountsSelect = ({
   accounts,
@@ -77,13 +77,63 @@ const AccountsSelect = ({
             type: "line",
             data: newCharts[property],
             options: {
+              maintainAspectRatio: false,
+              aspectRatio: 1.5,
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      let label = context.dataset.label || "";
+
+                      if (label) {
+                        label += ": ";
+                      }
+                      if (context.parsed.y !== null) {
+                        label += new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        }).format(context.parsed.y);
+                      }
+                      return label;
+                    },
+                  },
+                },
+              },
               scales: {
                 y: {
                   beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value, index, values) {
+                      return new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(value);
+                    },
+                  },
+                },
+                x: {
+                  // Change the color of xAxis labels based on the sum of y-values
+                  ticks: {
+                    color: function (context) {
+                      //using index, check if the value is positive or negative within newCharts[property].datasets[0].data
+                      // console.log(newCharts[property].datasets);
+                      const monthSum = newCharts[property].datasets.reduce(
+                        (total, dataset) => total + dataset.data[context.index],
+                        0
+                      );
+
+                      if (monthSum === 0) {
+                        return "black";
+                      } else if (monthSum > 0) {
+                        return "rgb(57,255,20)";
+                      } else {
+                        return "rgb(255,7,58)";
+                      }
+                    },
+                  },
                 },
               },
-              maintainAspectRatio: false,
-              aspectRatio: 1.5,
             },
           });
         }
@@ -212,7 +262,9 @@ const AccountsSelect = ({
                 id={`card-${index}`}
                 onClick={() => handleClick(item.id)}
               >
-                <h3>{item.attributes.accountName}</h3>
+                <h3 style={{ color: "black" }}>
+                  {item.attributes.accountName}
+                </h3>
                 <div className="row">
                   <div
                     className="col chart-container"
@@ -224,7 +276,21 @@ const AccountsSelect = ({
                     <canvas id={`chart-${item.id}`}></canvas>
                   </div>
                 </div>
-                <p>Balance: ${item.attributes.balance.toFixed(2)}</p>
+                <p>
+                  Balance:{" "}
+                  <b
+                    style={{
+                      color:
+                        item.attributes.balance > 0
+                          ? "rgb(57,255,20)"
+                          : item.attributes.balance < 0
+                          ? "rgb(255,7,58)"
+                          : "black",
+                    }}
+                  >
+                    ${item.attributes.balance.toFixed(2)}
+                  </b>
+                </p>
                 <div className="row">
                   <div className="col">
                     <button
