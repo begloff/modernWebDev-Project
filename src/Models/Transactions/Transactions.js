@@ -42,6 +42,9 @@ export const createTransaction = (data) => {
   const transaction = new Transactions();
 
   //Get user, and get current account (or pass to spending history)
+  if (typeof data.account !== "string") {
+    data.account = data.account.objectId;
+  }
   const User = getUser();
   var user = {
     __type: "Pointer",

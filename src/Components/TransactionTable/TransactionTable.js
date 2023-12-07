@@ -50,7 +50,7 @@ const TransactionTable = ({
     {
       name: "account",
       type: "select",
-      options: account.map((item) => {
+      options: accounts.map((item) => {
         return {
           name: item.attributes.accountName,
           value: item.id,
@@ -223,7 +223,7 @@ const TransactionTable = ({
                 store: "",
                 description: "",
                 amount: "",
-                account: "",
+                account: account ?? "",
               },
               setModalFormData,
               undefined,
