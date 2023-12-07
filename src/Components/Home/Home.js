@@ -97,7 +97,9 @@ const Home = () => {
         return transactionDate.getFullYear() === currentDate.getFullYear();
       } else if (period === "month") {
         return (
-          transactionDate.getMonth() === currentDate.getMonth() &&
+          (transactionDate.getMonth() === currentDate.getMonth() ||
+            (transactionDate.getMonth() === currentDate.getMonth() - 1 &&
+              transactionDate.getDate() > currentDate.getDate())) &&
           transactionDate.getFullYear() === currentDate.getFullYear()
         );
       } else if (period === "week") {
@@ -168,16 +170,23 @@ const Home = () => {
   useEffect(() => {
     // Set up charts
     const timeFrames = [];
+    const colors = {};
 
     //Only add to timeFrames if there is data
     if (yearTotal[0] !== 0 || yearTotal[1] !== 0) {
       timeFrames.push("yearly");
+      colors["yearly"] = ["rgba(255, 99, 132, 0.7)", "rgba(54, 162, 235, 0.7)"];
     }
     if (monthTotal[0] !== 0 || monthTotal[1] !== 0) {
       timeFrames.push("monthly");
+      colors["monthly"] = [
+        "rgba(255, 99, 235, 0.7)",
+        "rgba(109, 35, 193, 0.7)",
+      ];
     }
     if (weekTotal[0] !== 0 || weekTotal[1] !== 0) {
       timeFrames.push("weekly");
+      colors["weekly"] = ["rgba(255, 0, 0, 0.7)", "rgba(54, 235, 162, 0.7)"];
     }
 
     timeFrames.forEach((timeFrame) => {
@@ -204,10 +213,7 @@ const Home = () => {
           {
             label: "Financial Report",
             data: data,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.7)",
-              "rgba(54, 162, 235, 0.7)",
-            ],
+            backgroundColor: [colors[timeFrame][0], colors[timeFrame][1]],
             hoverOffset: 4,
             borderWidth: 1,
           },

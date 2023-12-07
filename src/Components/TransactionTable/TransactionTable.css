@@ -1,18 +1,17 @@
 .red-row {
-    background-color: #ff0000 !important;
-    color: rgb(255, 255, 255);
-}
-  
-.black-row {
-background-color: #000000 !important;
-color: rgb(255, 255, 255);
+  background-color: #ff0606cc !important;
+  color: rgb(255, 255, 255);
 }
 
+.black-row {
+  background-color: rgba(0, 0, 0, 0.808) !important;
+  color: rgb(255, 255, 255);
+}
 
 .trash-black {
-    color: black;
+  color: black;
 }
 
 .transactionModal {
-    background-color: black;
+  background-color: black;
 }
