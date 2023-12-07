@@ -192,7 +192,13 @@ const TransactionTable = ({
                   <td>{index + 1}</td>
                   <td>{transaction.attributes.date.toDateString()}</td>
                   <td>{transaction.attributes.description}</td>
-                  <td>${transaction.attributes.amount.toFixed(2)}</td>
+                  <td>
+                    $
+                    {transaction.attributes.amount.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </td>
                   <td>{transaction.attributes.store}</td>
                   <td
                     className="dropCol"

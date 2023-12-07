@@ -11,6 +11,7 @@ import {
 import { getAllTransactions } from "../../Models/Transactions/Transactions";
 import Parse from "parse";
 import Chart from "chart.js/auto";
+import RollingText from "../RollingText/RollingText";
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
@@ -18,7 +19,61 @@ const Home = () => {
   const [yearTotal, setYearTotal] = useState([0, 0]);
   const [monthTotal, setMonthTotal] = useState([0, 0]);
   const [weekTotal, setWeekTotal] = useState([0, 0]);
+  const [financialHealthGrade, setFinancialHealthGrade] = useState(""); // ["Magnificent", "Good", "Ok", "Poor", "Terrible"
   const userfirst = Parse.User.current();
+
+  const financialHealth = {
+    Magnificent: {
+      color: "#0ffc03",
+      lines: [
+        "Given your financial prowess, why not diversify investments for an added thrill?",
+        "Consider mentoring others on financial acumen - could be your claim to fame.",
+        "Since you're in financial cruise control, explore high-yield savings for extra sparkle.",
+        "Why not channel that financial wizardry into exploring new investment avenues?",
+        "You've got the golden touch - explore sophisticated investment opportunities.",
+      ],
+    },
+    Good: {
+      color: "#a3ff00",
+      lines: [
+        "Stay the course! Perhaps indulge in a slightly nicer treat for maintaining stability.",
+        "Keep up the balanced approach; maybe set a slightly loftier savings goal.",
+        "Maintain your financial routine, maybe spice it up with a calculated risk.",
+        "You're on solid ground. Consider reviewing investment strategies for a little more zest.",
+        "Why not treat yourself modestly for a job well done?",
+      ],
+    },
+    Ok: {
+      color: "#fffc00",
+      lines: [
+        "Stick to the plan! Maybe introduce a small twist to spice up your financial routine.",
+        "Consider reevaluating expenses and aim for a bit more moderation.",
+        "You're cruising, but review your financial radar for potential opportunities.",
+        "Stay steady. Maybe shuffle the budget a bit for a refreshing change.",
+        "Explore new saving strategies, just to give the finances a gentle nudge.",
+      ],
+    },
+    Poor: {
+      color: "#ff9d00",
+      lines: [
+        "Revisit expenses - you might find untapped savings by cutting back.",
+        "Consider exploring frugal hacks to pump up the savings.",
+        "Review and plug budget leaks for a little financial CPR.",
+        "Revive the emergency fund; even small additions can make a difference.",
+        "Explore ways to curtail spending - every bit counts!",
+      ],
+    },
+    Terrible: {
+      color: "#ff0000",
+      lines: [
+        "Prioritize debt management; explore strategies to start chipping away.",
+        "Consider seeking financial counseling for a structured debt management plan.",
+        "Focus on building a tiny emergency fund - even small savings can be a starting point.",
+        "Refrain from new debts; focus on the financial spring cleaning instead.",
+        "Explore drastic cost-cutting measures to reverse the financial tide.",
+      ],
+    },
+  };
 
   function toTitleCase(str) {
     return str
@@ -87,6 +142,26 @@ const Home = () => {
       setWeekTotal(calculateSumForPeriod(results, "week"));
     });
   }, []);
+
+  const calculateFinancialHealth = (totals) => {
+    const totalExpenses = totals.reduce((acc, current) => acc + current[0], 0);
+    const totalIncome = totals.reduce((acc, current) => acc + current[1], 0);
+
+    const debtToIncomeRatio =
+      totalExpenses !== 0 ? totalExpenses / totalIncome : 0;
+
+    if (debtToIncomeRatio <= 0.1) {
+      setFinancialHealthGrade("Magnificent");
+    } else if (debtToIncomeRatio <= 0.3) {
+      setFinancialHealthGrade("Good");
+    } else if (debtToIncomeRatio <= 0.5) {
+      setFinancialHealthGrade("Ok");
+    } else if (debtToIncomeRatio <= 0.7) {
+      setFinancialHealthGrade("Poor");
+    } else {
+      setFinancialHealthGrade("Terrible");
+    }
+  };
 
   useEffect(() => {
     // Set up charts
@@ -176,6 +251,9 @@ const Home = () => {
         options: chartOptions,
       });
     });
+
+    //Scan through yearTotal, monthTotal, and weekTotal and assign a financial Health grade
+    calculateFinancialHealth([yearTotal, monthTotal, weekTotal]);
   }, [yearTotal, weekTotal, monthTotal]);
 
   const finishAccountEdit = async (
@@ -395,6 +473,55 @@ const Home = () => {
                 </div>
               )}
             </div>
+            {financialHealthGrade && (
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: "black",
+                      fontWeight: "normal",
+                    }}
+                  >
+                    {userfirst.get("firstName")}, your financial health is{" "}
+                  </h3>
+                  <h3
+                    style={{
+                      fontSize: "35px",
+                      color: financialHealth[financialHealthGrade].color,
+                      lineHeight: "1",
+                    }}
+                  >
+                    {financialHealthGrade}
+                  </h3>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    {" "}
+                    <h3
+                      style={{
+                        color: "black",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      We recommend you:
+                    </h3>
+                  </div>
+                  <div className="col" style={{ flexBasis: "40%" }}>
+                    <RollingText
+                      phrases={financialHealth[financialHealthGrade].lines}
+                    />
+                  </div>
+                </div>
+                <div></div>
+              </div>
+            )}
           </section>
         </main>
 
