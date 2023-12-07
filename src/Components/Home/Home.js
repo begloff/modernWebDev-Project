@@ -150,13 +150,15 @@ const Home = () => {
     const debtToIncomeRatio =
       totalExpenses !== 0 ? totalExpenses / totalIncome : 0;
 
-    if (debtToIncomeRatio <= 0.1) {
+    console.log(debtToIncomeRatio, totalExpenses, totalIncome);
+
+    if (debtToIncomeRatio <= 0.2) {
       setFinancialHealthGrade("Magnificent");
-    } else if (debtToIncomeRatio <= 0.3) {
-      setFinancialHealthGrade("Good");
     } else if (debtToIncomeRatio <= 0.5) {
-      setFinancialHealthGrade("Ok");
+      setFinancialHealthGrade("Good");
     } else if (debtToIncomeRatio <= 0.7) {
+      setFinancialHealthGrade("Ok");
+    } else if (debtToIncomeRatio <= 0.9) {
       setFinancialHealthGrade("Poor");
     } else {
       setFinancialHealthGrade("Terrible");
