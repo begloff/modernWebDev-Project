@@ -1,5 +1,9 @@
 import Parse from "parse";
 import { getUser } from "../../Components/Auth/Services/AuthService";
+import {
+  getAllTransactions,
+  deleteTransaction,
+} from "../Transactions/Transactions";
 
 // const url =
 //   "https://my-json-server.typicode.com/kellybuchanan/WebDev-Spring2021";
@@ -91,6 +95,13 @@ export const createAccount = (data) => {
 export const deleteAccount = (objectId) => {
   const Accounts = Parse.Object.extend("Accounts");
   const query = new Parse.Query(Accounts);
+
+  //Scan through all transactions within this account and delete them
+  getAllTransactions(objectId).then((transactions) => {
+    transactions.forEach((transaction) => {
+      deleteTransaction(transaction.id);
+    });
+  });
 
   return query.get(objectId).then((transaction) => {
     return transaction.destroy();

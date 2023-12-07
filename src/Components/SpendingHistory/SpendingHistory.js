@@ -247,7 +247,7 @@ const SpendingHistory = () => {
             finishNewTransaction={finishNewTransaction}
             deleteTransaction={deleteTransaction}
             updateDeletedTransaction={updateDeletedTransaction}
-            account={accounts}
+            account={accountId}
           />
 
           <Modal

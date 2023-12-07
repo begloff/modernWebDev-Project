@@ -90,7 +90,18 @@ const Home = () => {
 
   useEffect(() => {
     // Set up charts
-    const timeFrames = ["yearly", "monthly", "weekly"];
+    const timeFrames = [];
+
+    //Only add to timeFrames if there is data
+    if (yearTotal[0] !== 0 || yearTotal[1] !== 0) {
+      timeFrames.push("yearly");
+    }
+    if (monthTotal[0] !== 0 || monthTotal[1] !== 0) {
+      timeFrames.push("monthly");
+    }
+    if (weekTotal[0] !== 0 || weekTotal[1] !== 0) {
+      timeFrames.push("weekly");
+    }
 
     timeFrames.forEach((timeFrame) => {
       //set up chart
@@ -126,23 +137,43 @@ const Home = () => {
         ],
       };
 
-      new Chart(canvas, {
-        type: "pie",
-        data: chartData,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          aspectRatio: 1.5,
-          plugins: {
-            title: {
-              display: true,
-              text: `${toTitleCase(timeFrame)} Financial Report`,
-              font: {
-                size: 18,
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 1.5,
+        plugins: {
+          title: {
+            display: true,
+            text: `${toTitleCase(timeFrame)} Financial Report`,
+            font: {
+              size: 18,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.dataset.label || "";
+
+                if (label) {
+                  label += ": ";
+                }
+                if (context.parsed !== null) {
+                  label += new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(context.parsed);
+                }
+                return label;
               },
             },
           },
         },
+      };
+
+      new Chart(canvas, {
+        type: "pie",
+        data: chartData,
+        options: chartOptions,
       });
     });
   }, [yearTotal, weekTotal, monthTotal]);
@@ -256,89 +287,113 @@ const Home = () => {
         />
 
         <main className="content">
-          <section className="summary">
+          <section className="summary" style={{ marginTop: "50px" }}>
             <h2>Your Financial Summary</h2>
             <div className="row">
               <div className="col">
                 {" "}
                 <p>
-                  Total expenses this year: $
-                  {yearTotal[0].toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  Total expenses this year:
+                  <b>
+                    $
+                    {yearTotal[0].toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
                 <p>
-                  Total expenses this month: $
-                  {monthTotal[0].toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  Total expenses this month:{" "}
+                  <b>
+                    $
+                    {monthTotal[0].toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
                 <p>
-                  Total expenses this week: $
-                  {weekTotal[0].toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  Total expenses this week:{" "}
+                  <b>
+                    $
+                    {weekTotal[0].toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
               </div>
               <div className="col">
                 {" "}
                 <p>
-                  Total Income this year: $
-                  {yearTotal[1].toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  Total Income this year:{" "}
+                  <b>
+                    $
+                    {yearTotal[1].toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
                 <p>
-                  Total Income this month: $
-                  {monthTotal[1].toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  Total Income this month:{" "}
+                  <b>
+                    $
+                    {monthTotal[1].toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
                 <p>
-                  Total Income this week: $
-                  {weekTotal[1].toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                  Total Income this week:{" "}
+                  <b>
+                    $
+                    {weekTotal[1].toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
               </div>
             </div>
             <div className="card-list">
-              <div>
-                <div
-                  className="col chart-container"
-                  style={{
-                    position: "relative",
-                  }}
-                >
-                  <canvas id="yearly-chart"></canvas>
+              {(yearTotal[0] !== 0 || yearTotal[1] !== 0) && (
+                <div>
+                  <div
+                    className="col chart-container"
+                    style={{
+                      position: "relative",
+                    }}
+                  >
+                    <canvas id="yearly-chart"></canvas>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div
-                  className="col chart-container"
-                  style={{
-                    position: "relative",
-                  }}
-                >
-                  <canvas id="monthly-chart"></canvas>
+              )}
+              {(monthTotal[0] !== 0 || monthTotal[1] !== 0) && (
+                <div>
+                  <div
+                    className="col chart-container"
+                    style={{
+                      position: "relative",
+                    }}
+                  >
+                    <canvas id="monthly-chart"></canvas>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div
-                  className="col chart-container"
-                  style={{
-                    position: "relative",
-                  }}
-                >
-                  <canvas id="weekly-chart"></canvas>
+              )}
+              {(weekTotal[0] !== 0 || weekTotal[1] !== 0) && (
+                <div>
+                  <div
+                    className="col chart-container"
+                    style={{
+                      position: "relative",
+                    }}
+                  >
+                    <canvas id="weekly-chart"></canvas>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </section>
         </main>
