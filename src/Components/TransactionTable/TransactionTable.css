@@ -8,6 +8,16 @@
   color: rgb(255, 255, 255);
 }
 
+.red-row:hover {
+  background-color: #ff060691 !important;
+  color: rgb(255, 255, 255);
+}
+
+.black-row:hover {
+  background-color: rgba(0, 0, 0, 0.568) !important;
+  color: rgb(255, 255, 255);
+}
+
 .trash-black {
   color: black;
 }
