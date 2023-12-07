@@ -15,6 +15,8 @@ import {
 import Modal from "../Modal/Modal.js";
 import TableQuery from "../TableQuery/TableQuery.js";
 import TransactionTable from "../TransactionTable/TransactionTable.js";
+import Parse from "parse";
+import "./SpendingHistory.css"
 
 const SpendingHistory = () => {
   const [transactions, setTransactions] = useState([]);
@@ -32,6 +34,8 @@ const SpendingHistory = () => {
     id: "",
     closeModalFunc: () => {},
   });
+  const user = Parse.User.current();
+
 
   useEffect(() => {
     // pull all transactions from json, set transactions, and filter transactions
@@ -226,60 +230,59 @@ const SpendingHistory = () => {
 
   // return the HTML for everything on the page
   return (
-    <div>
-      <div className="row">
-        <div className="col">
-          <h1>Finance Manager</h1>
-          <h3>Transaction History</h3>
-          <hr />
-          <hr />
-
-          <TableQuery onQuery={handleQuery} />
-
-          <TransactionTable
-            transactions={filteredTransactions}
-            setTransactions={setFilteredTransactions}
-            accounts={accounts}
-            openModal={openModal}
-            modalForm={modalForm}
-            setModalFormData={setModalFormData}
-            finishEdit={finishEdit}
-            finishNewTransaction={finishNewTransaction}
-            deleteTransaction={deleteTransaction}
-            updateDeletedTransaction={updateDeletedTransaction}
-            account={accounts}
-          />
-
-          <Modal
-            isOpen={modalForm?.isOpen}
-            closeModal={modalForm?.closeModalFunc}
-            modalForm={modalForm}
-            setUpdate={setUpdate}
-            setModalFormData={setModalFormData}
-          />
-        </div>
+    <div className="financeManager">
+      <div className="tHeader">
+        <h1>Finance Manager</h1>
+        <h2>{user.get("firstName")} {user.get("lastName")} Transaction History</h2>
       </div>
-      {filteredTransactions.length > 0 && (
-        <div className="row">
-          <div className="col">
-            <h3>
-              {" "}
-              Total Balance: $
-              {filteredTransactions
-                .reduce((total, transaction) => {
-                  const amount = Number(transaction.attributes.amount);
-                  if (transaction.attributes.type === "income") {
-                    return total + amount;
-                  } else if (transaction.attributes.type === "expense") {
-                    return total - amount;
-                  }
-                  return total;
-                }, 0)
-                .toFixed(2)}
-            </h3>
+
+      <div className="table">
+        <TableQuery onQuery={handleQuery} />
+
+        <TransactionTable
+          transactions={filteredTransactions}
+          setTransactions={setFilteredTransactions}
+          accounts={accounts}
+          openModal={openModal}
+          modalForm={modalForm}
+          setModalFormData={setModalFormData}
+          finishEdit={finishEdit}
+          finishNewTransaction={finishNewTransaction}
+          deleteTransaction={deleteTransaction}
+          updateDeletedTransaction={updateDeletedTransaction}
+          account={accounts}
+        />
+
+        <Modal
+          isOpen={modalForm?.isOpen}
+          closeModal={modalForm?.closeModalFunc}
+          modalForm={modalForm}
+          setUpdate={setUpdate}
+          setModalFormData={setModalFormData}
+        />
+
+        {filteredTransactions.length > 0 && (
+          <div className="row">
+            <div className="col">
+              <h3 style={{color: "black"}}>
+                {" "}
+                Total Balance: $
+                {filteredTransactions
+                  .reduce((total, transaction) => {
+                    const amount = Number(transaction.attributes.amount);
+                    if (transaction.attributes.type === "income") {
+                      return total + amount;
+                    } else if (transaction.attributes.type === "expense") {
+                      return total - amount;
+                    }
+                    return total;
+                  }, 0)
+                  .toFixed(2)}
+              </h3>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 
