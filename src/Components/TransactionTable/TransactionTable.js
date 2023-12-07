@@ -168,6 +168,8 @@ const TransactionTable = ({
             <tbody>
               {transactions.map((transaction, index) => (
                 <tr
+                  className={transaction.attributes.type === 'expense' ? 'red-row' : 'black-row'} // Apply red or black class based on the index
+
                   style={{ cursor: "pointer" }}
                   key={transaction.id}
                   onClick={() => {
@@ -210,7 +212,7 @@ const TransactionTable = ({
                     }}
                     style={{ textAlign: "center" }}
                   >
-                    <FontAwesomeIcon icon={faTrash} className="trashIcon" />
+                    <FontAwesomeIcon icon={faTrash} /> 
                   </td>
                 </tr>
               ))}

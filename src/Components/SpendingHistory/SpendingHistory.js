@@ -265,6 +265,7 @@ const SpendingHistory = () => {
         />
 
         <Modal
+          className="transactionModal"
           isOpen={modalForm?.isOpen}
           closeModal={modalForm?.closeModalFunc}
           modalForm={modalForm}

@@ -1,0 +1,22 @@
+.mContainer {
+    display: flex;
+    margin-top: 1%;
+    /* Set other styling properties as needed */
+  }
+  
+  .left {
+    width:50%;
+    margin-left: 0%;
+    /* Add styles for the left side, e.g., margin, padding, etc. */
+  }
+  
+  .right {
+    /* Add styles for the right side, e.g., margin, padding, etc. */
+    margin-right: auto;
+  }
+  
+  /* Example: Add spacing between left and right */
+  .left {
+    margin-right: 10px;
+  }
+  

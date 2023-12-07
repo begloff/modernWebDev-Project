@@ -87,7 +87,7 @@ const Home = () => {
   const calculateSumForPeriod = (transactions, period) => {
     if (!transactions || transactions.length === 0) {
       // Check if transactions array is empty or undefined, return 0
-      return 0;
+      return [0, 0];
     }
 
     const currentDate = new Date(); // get current date

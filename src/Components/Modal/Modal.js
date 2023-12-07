@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import "./Modal.css"
 
 const Modal = ({
   isOpen,
@@ -95,37 +96,50 @@ const Modal = ({
             if (field.type === "select") {
               return (
                 <li key={`${field.name}-${index}`}>
-                  <label htmlFor={`${field.name}Input`}>{field.name}:</label>
-                  <select
-                    name={field.name}
-                    id={`${field.name}Input`}
-                    value={modalForm?.data[field.name]}
-                    onChange={handleInputChange}
-                  >
-                    {field.options.map((option, index) => {
-                      return (
-                        <option
-                          value={option.value}
-                          key={`${option.value}-${index}`}
-                        >
-                          {option.name}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  <div className="mContainer">
+                    <div className="left">
+                      <label htmlFor={`${field.name}Input`}>{field.name}:</label>
+                    </div>
+
+                    <div className="right">
+                      <select
+                        name={field.name}
+                        id={`${field.name}Input`}
+                        value={modalForm?.data[field.name]}
+                        onChange={handleInputChange}
+                      >
+                        {field.options.map((option, index) => (
+                          <option
+                            value={option.value}
+                            key={`${option.value}-${index}`}
+                          >
+                            {option.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 </li>
+
               );
             } else {
               return (
                 <li key={`${field.name}-${index}`}>
-                  <label htmlFor={`${field.name}Input`}>{field.name}:</label>
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    id={`${field.name}Input`}
-                    value={modalForm?.data[field.name]}
-                    onChange={handleInputChange}
-                  />
+                  <div className="mContainer">
+                    <div className="left">
+                      <label htmlFor={`${field.name}Input`}>{field.name}:</label>
+                    </div>
+                    
+                    <div className="right">
+                      <input
+                        type={field.type}
+                        name={field.name}
+                        id={`${field.name}Input`}
+                        value={modalForm?.data[field.name]}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
                 </li>
               );
             }
