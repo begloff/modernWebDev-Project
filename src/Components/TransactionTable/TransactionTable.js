@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import "./TransactionTable.css"
+import "./TransactionTable.css";
 
 const TransactionTable = ({
   transactions,
@@ -168,8 +168,11 @@ const TransactionTable = ({
             <tbody>
               {transactions.map((transaction, index) => (
                 <tr
-                  className={transaction.attributes.type === 'expense' ? 'red-row' : 'black-row'} // Apply red or black class based on the index
-
+                  className={
+                    transaction.attributes.type === "expense"
+                      ? "red-row"
+                      : "black-row"
+                  } // Apply red or black class based on the index
                   style={{ cursor: "pointer" }}
                   key={transaction.id}
                   onClick={() => {
@@ -212,7 +215,7 @@ const TransactionTable = ({
                     }}
                     style={{ textAlign: "center" }}
                   >
-                    <FontAwesomeIcon icon={faTrash} /> 
+                    <FontAwesomeIcon icon={faTrash} />
                   </td>
                 </tr>
               ))}

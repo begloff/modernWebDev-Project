@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import "./Modal.css"
+import "./Modal.css";
 
 const Modal = ({
   isOpen,
@@ -81,6 +81,8 @@ const Modal = ({
     return null;
   }
 
+  console.log(modalForm);
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -98,7 +100,9 @@ const Modal = ({
                 <li key={`${field.name}-${index}`}>
                   <div className="mContainer">
                     <div className="left">
-                      <label htmlFor={`${field.name}Input`}>{field.name}:</label>
+                      <label htmlFor={`${field.name}Input`}>
+                        {field.name}:
+                      </label>
                     </div>
 
                     <div className="right">
@@ -120,16 +124,17 @@ const Modal = ({
                     </div>
                   </div>
                 </li>
-
               );
             } else {
               return (
                 <li key={`${field.name}-${index}`}>
                   <div className="mContainer">
                     <div className="left">
-                      <label htmlFor={`${field.name}Input`}>{field.name}:</label>
+                      <label htmlFor={`${field.name}Input`}>
+                        {field.name}:
+                      </label>
                     </div>
-                    
+
                     <div className="right">
                       <input
                         type={field.type}

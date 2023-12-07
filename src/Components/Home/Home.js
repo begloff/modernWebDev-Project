@@ -152,8 +152,6 @@ const Home = () => {
     const debtToIncomeRatio =
       totalExpenses !== 0 ? totalExpenses / totalIncome : 0;
 
-    console.log(debtToIncomeRatio, totalExpenses, totalIncome);
-
     if (debtToIncomeRatio <= 0.2) {
       setFinancialHealthGrade("Magnificent");
     } else if (debtToIncomeRatio <= 0.5) {

@@ -212,7 +212,12 @@ const SpendingHistory = () => {
   ) => {
     if (post) {
       const newTransaction = await createTransaction(transaction);
-      setUpdate(newTransaction);
+      if (newTransaction) {
+        setUpdate(newTransaction);
+        setModalFormData({ ...modalForm, isOpen: false });
+      } else {
+        alert("Error creating transaction");
+      }
     }
 
     setModalFormData({ ...modalForm, isOpen: false });
@@ -261,7 +266,7 @@ const SpendingHistory = () => {
           finishNewTransaction={finishNewTransaction}
           deleteTransaction={deleteTransaction}
           updateDeletedTransaction={updateDeletedTransaction}
-          account={accounts}
+          account={accountId}
         />
 
         <Modal

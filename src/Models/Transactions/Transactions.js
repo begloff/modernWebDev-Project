@@ -45,6 +45,11 @@ export const createTransaction = (data) => {
   if (typeof data.account !== "string") {
     data.account = data.account.objectId;
   }
+
+  if (data.account === undefined) {
+    return null;
+  }
+
   const User = getUser();
   var user = {
     __type: "Pointer",
