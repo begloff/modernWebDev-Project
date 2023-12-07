@@ -87,7 +87,7 @@ const Home = () => {
   const calculateSumForPeriod = (transactions, period) => {
     if (!transactions || transactions.length === 0) {
       // Check if transactions array is empty or undefined, return 0
-      return 0;
+      return [0, 0];
     }
 
     const currentDate = new Date(); // get current date
@@ -354,8 +354,6 @@ const Home = () => {
           </h1>
         </header>
 
-        {/* Future Work - make the summary reactive: not just fake numbers */}
-
         <Modal
           isOpen={modalForm?.isOpen}
           closeModal={modalForm?.closeModalFunc}
@@ -367,9 +365,15 @@ const Home = () => {
         <main className="content">
           <section className="summary" style={{ marginTop: "50px" }}>
             <h2>Your Financial Summary</h2>
-            <div className="row">
-              <div className="col">
-                {" "}
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ flex: "1" }}>
                 <p>
                   Total expenses this year:
                   <b>
@@ -401,8 +405,7 @@ const Home = () => {
                   </b>
                 </p>
               </div>
-              <div className="col">
-                {" "}
+              <div style={{ flex: "1" }}>
                 <p>
                   Total Income this year:{" "}
                   <b>
@@ -427,7 +430,7 @@ const Home = () => {
                   Total Income this week:{" "}
                   <b>
                     $
-                    {weekTotal[1].toLocaleString("en-US", {
+                    {weekTotal[1]?.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
@@ -473,7 +476,7 @@ const Home = () => {
                 </div>
               )}
             </div>
-            {financialHealthGrade && (
+            {financialHealthGrade && transactions.length && (
               <div>
                 <div
                   style={{
@@ -496,6 +499,7 @@ const Home = () => {
                       fontSize: "35px",
                       color: financialHealth[financialHealthGrade].color,
                       lineHeight: "1",
+                      marginLeft: "10px",
                     }}
                   >
                     {financialHealthGrade}
@@ -519,7 +523,6 @@ const Home = () => {
                     />
                   </div>
                 </div>
-                <div></div>
               </div>
             )}
           </section>

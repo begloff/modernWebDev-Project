@@ -17,7 +17,7 @@ const RollingText = ({ phrases }) => {
       {phrases.map((phrase, idx) => (
         <p
           key={idx}
-          className={idx === index ? "active" : ""}
+          className={idx === index ? "active roll" : "roll"}
           style={{ color: "#259c4f", fontSize: "20px", fontWeight: "bold" }}
         >
           {phrase}

@@ -142,12 +142,7 @@ const AccountsSelect = ({
   }, [newCharts]);
 
   useEffect(() => {
-    if (
-      accounts &&
-      accounts.length > 0 &&
-      transactions &&
-      transactions.length > 0
-    ) {
+    if (accounts && accounts.length > 0) {
       const chartReferences = {};
       accounts.forEach((account) => {
         const canvasId = `chart-${account.id}`;
