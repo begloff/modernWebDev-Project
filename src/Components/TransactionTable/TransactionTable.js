@@ -119,6 +119,7 @@ const TransactionTable = ({
             <thead>
               <tr>
                 <th></th>
+                {/* make header interactive, sort on click */}
                 <th
                   onClick={() => handleSort("date")}
                   style={{ cursor: "pointer" }}
@@ -174,7 +175,7 @@ const TransactionTable = ({
                     transaction.attributes.type === "expense"
                       ? "red-row"
                       : "black-row"
-                  } // Apply red or black class based on the index
+                  } // Apply red or black class based on the transaction type
                   style={{ cursor: "pointer" }}
                   key={transaction.id}
                   onClick={() => {

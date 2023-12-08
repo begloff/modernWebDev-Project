@@ -36,7 +36,6 @@ const AuthRegister = () => {
           );
           navigate("/");
         }
-        // TODO: redirect user to main app
         setAdd(false);
       });
     }
@@ -46,6 +45,7 @@ const AuthRegister = () => {
     e.preventDefault();
     const { name, value: newValue } = e.target;
 
+    // Update user info on change
     setNewUser({
       ...newUser,
       [name]: newValue,
