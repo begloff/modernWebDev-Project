@@ -19,6 +19,7 @@ export default function Components() {
     <Router>
       <Header />
       <Routes>
+        {/* Only allow unauthed users to auth pages */}
         <Route
           path="/auth"
           element={<UnprotectedRoute path="/auth" element={AuthModule} />}
@@ -27,6 +28,8 @@ export default function Components() {
           path="/auth/register"
           element={<UnprotectedRoute path="/auth" element={AuthRegister} />}
         />
+
+        {/* Only allow authed users to protected pages */}
         <Route
           path="/transactions/:accountId?"
           element={<ProtectedRoute path="/" element={SpendingHistory} />}

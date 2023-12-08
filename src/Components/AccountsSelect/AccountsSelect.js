@@ -313,8 +313,8 @@ const AccountsSelect = ({
           </div>
         </div>
       </div>
+      {/* button to trigger handle button hook */}
       <div className="row">
-        {/* Future Work: Make new account actually functional */}
         <button
           className="btn btn-primary"
           style={{ marginTop: "25px" }}

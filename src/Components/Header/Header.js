@@ -27,6 +27,7 @@ const Header = () => {
             <Link to="/transactions" className="navbarItem">
               Transaction History
             </Link>
+            {/* Prompt user with popup on logout attempt */}
             <div className="logout" onClick={handleLogout}>
               Logout
             </div>
