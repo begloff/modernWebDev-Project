@@ -146,6 +146,7 @@ const Home = () => {
   }, []);
 
   const calculateFinancialHealth = (totals) => {
+    //Gives an appropriate grade to color text by and give a list of recommendations
     const totalExpenses = totals.reduce((acc, current) => acc + current[0], 0);
     const totalIncome = totals.reduce((acc, current) => acc + current[1], 0);
 
@@ -217,6 +218,8 @@ const Home = () => {
           },
         ],
       };
+
+      //Make 3 charts for year, month, and week
 
       const chartOptions = {
         responsive: true,

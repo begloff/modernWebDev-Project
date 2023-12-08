@@ -62,6 +62,8 @@ const TransactionTable = ({
 
   const [sortOrder, setSortOrder] = useState({ dateSort: false });
 
+  //Update transactions based on which column is clicked
+
   const handleSort = (columnName) => {
     const propertyName = `${columnName}Sort`;
 
