@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.0] - 2023-12-8
+
+### Added
+
+- Added Charts using chart.js to improve user experience
+- Deployed site using netlify
+- Made account buttons functional
+
+### Changed
+
+- Modified site styling
+- Made modal component universal
+
+### Fixed
+
+
+
 ## [0.3.0] - 2023-11-7
 
 ### Added
